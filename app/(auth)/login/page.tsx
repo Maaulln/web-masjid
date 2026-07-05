@@ -17,7 +17,9 @@ export default function LoginPage() {
     if (res?.error) {
       setError('Email atau Password salah.');
     } else {
-      router.push('/');
+      const urlParams = new URLSearchParams(window.location.search);
+      const callbackUrl = urlParams.get('callbackUrl');
+      router.push(callbackUrl || '/admin/dashboard');
     }
   };
 
