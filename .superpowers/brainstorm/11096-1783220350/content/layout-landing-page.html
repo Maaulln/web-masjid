@@ -1,0 +1,120 @@
+<h2>Wireframe Landing Page & Fitur Kegiatan Terjadwal</h2>
+<p class="subtitle">Desain tata letak halaman utama dengan integrasi sistem "Kegiatan Otomatis Off".</p>
+
+<!-- Tampilan Mockup Website -->
+<div class="mockup" style="border: 2px solid #065f46; border-radius: 8px; overflow: hidden; background: #f9fafb;">
+  <div class="mockup-header" style="background: #065f46; color: white; padding: 12px 20px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 1.2rem;">🕌</span>
+      <span>Masjid Al-Ikhlas</span>
+    </div>
+    <div style="display: flex; gap: 15px; font-size: 0.9rem;">
+      <span>Beranda</span>
+      <span>Kegiatan</span>
+      <span>Kas</span>
+      <span style="background: #d97706; padding: 2px 8px; border-radius: 4px; font-weight: bold; cursor: pointer;">Donasi Sekarang</span>
+      <span style="border: 1px solid white; padding: 2px 8px; border-radius: 4px; cursor: pointer;">Login</span>
+    </div>
+  </div>
+
+  <div class="mockup-body" style="padding: 20px; color: #1f2937;">
+    <!-- HERO SECTION & TRANSPARANSI KAS -->
+    <div style="background: linear-gradient(135deg, #065f46 0%, #047857 100%); color: white; padding: 30px; border-radius: 6px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+      <h3 style="color: #fef08a; margin-bottom: 8px; font-size: 1.6rem;">Transparansi Saldo Kas Masjid</h3>
+      <p style="font-size: 0.95rem; opacity: 0.9; margin-bottom: 15px;">Pembaruan Terakhir: Real-time dari sistem keuangan admin</p>
+      
+      <div style="display: flex; justify-content: center; gap: 40px; margin-bottom: 15px;">
+        <div>
+          <div style="font-size: 0.8rem; opacity: 0.8; text-transform: uppercase;">Total Pemasukan</div>
+          <div style="font-size: 1.4rem; font-weight: bold; color: #a7f3d0;">Rp 45.250.000</div>
+        </div>
+        <div style="border-left: 1px solid rgba(255,255,255,0.2); padding-left: 40px;">
+          <div style="font-size: 0.8rem; opacity: 0.8; text-transform: uppercase;">Saldo Kas Saat Ini</div>
+          <div style="font-size: 1.8rem; font-weight: bold; color: #fef08a;">Rp 18.750.000</div>
+        </div>
+      </div>
+      
+      <button style="background: #d97706; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: background 0.2s;">
+        ❤️ Donasi Online Cepat
+      </button>
+    </div>
+
+    <!-- KEGIATAN MASJID & LOGIKA AUTOMATIC OFF -->
+    <div style="margin-bottom: 25px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; margin-bottom: 15px;">
+        <h4 style="color: #065f46; margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 6px;">
+          📅 Kegiatan & Kajian Terdekat
+        </h4>
+        <span style="font-size: 0.8rem; background: #d1fae5; color: #065f46; padding: 3px 8px; border-radius: 12px; font-weight: bold;">
+          Logika: Otomatis disembunyikan jika waktu berakhir terlewati
+        </span>
+      </div>
+
+      <!-- Grid Kegiatan -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <!-- Card Kegiatan 1: AKTIF -->
+        <div style="background: white; border: 1px solid #e5e7eb; border-left: 4px solid #065f46; padding: 15px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); position: relative;">
+          <span style="position: absolute; top: 10px; right: 10px; font-size: 0.75rem; background: #d1fae5; color: #065f46; padding: 2px 6px; border-radius: 4px; font-weight: bold;">AKTIF</span>
+          <h5 style="margin: 0 0 5px 0; color: #111827; font-size: 1rem;">Kajian Rutin Tafsir Al-Quran</h5>
+          <p style="margin: 0 0 10px 0; font-size: 0.85rem; color: #6b7280;">Ustadz Dr. Abdul Somad, Lc.</p>
+          <div style="font-size: 0.8rem; color: #374151;">
+            ⏳ Mulai: <strong>Hari Ini, 18:00 WIB</strong><br>
+            ⏹️ Selesai: <strong>Hari Ini, 19:30 WIB</strong>
+          </div>
+        </div>
+
+        <!-- Card Kegiatan 2: AKAN DATANG -->
+        <div style="background: white; border: 1px solid #e5e7eb; border-left: 4px solid #065f46; padding: 15px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); position: relative;">
+          <span style="position: absolute; top: 10px; right: 10px; font-size: 0.75rem; background: #d1fae5; color: #065f46; padding: 2px 6px; border-radius: 4px; font-weight: bold;">AKAN DATANG</span>
+          <h5 style="margin: 0 0 5px 0; color: #111827; font-size: 1rem;">Penyaluran Santunan Anak Yatim</h5>
+          <p style="margin: 0 0 10px 0; font-size: 0.85rem; color: #6b7280;">Pengurus Masjid Al-Ikhlas</p>
+          <div style="font-size: 0.8rem; color: #374151;">
+            ⏳ Mulai: <strong>Besok, 09:00 WIB</strong><br>
+            ⏹️ Selesai: <strong>Besok, 12:00 WIB</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ilustrasi Kegiatan Kedaluwarsa yang Otomatis Off (Disimulasikan buram/hidden) -->
+      <div style="margin-top: 15px; padding: 10px; background: #f3f4f6; border: 1px dashed #d1d5db; border-radius: 4px; opacity: 0.65; display: flex; align-items: center; justify-content: space-between;">
+        <div style="font-size: 0.8rem; color: #4b5563;">
+          🔒 <em>[Disembunyikan Otomatis]</em> Kajian Subuh Tematik (Selesai Tadi Pagi, 06:30 WIB)
+        </div>
+        <span style="font-size: 0.75rem; background: #ef4444; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold;">EXPIRED (OFF)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 25px;">
+  <h3>Bagaimana Logika "Automatic Off" Kegiatan Berjalan?</h3>
+  <ul>
+    <li>Di database, setiap kegiatan memiliki field <code>startDateTime</code> dan <code>endDateTime</code>.</li>
+    <li>Di query Next.js Server Components untuk Landing Page, kita akan menambahkan filter database seperti:
+      <pre style="background: #f1f5f9; padding: 8px; border-radius: 4px; font-size: 0.85rem; overflow-x: auto;">
+where: {
+  endDateTime: {
+    gte: new Date() // Hanya tampilkan kegiatan yang belum berakhir
+  }
+}</pre>
+    </li>
+    <li>Dengan cara ini, kegiatan yang sudah lewat waktunya tidak akan membebani tampilan depan, tanpa perlu admin mematikannya secara manual!</li>
+  </ul>
+</div>
+
+<div class="options" data-multiselect="false">
+  <div class="option" data-choice="agree-layout" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Setuju dengan Tata Letak & Logika Ini</h3>
+      <p>Tata letak landing page dan logika filter otomatis untuk kegiatan sudah sangat sesuai.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="need-adjustments" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>Perlu Penyesuaian</h3>
+      <p>Saya ingin memberikan masukan tambahan untuk tata letak atau logika penayangan kegiatan.</p>
+    </div>
+  </div>
+</div>
