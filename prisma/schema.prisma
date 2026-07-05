@@ -1,0 +1,135 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum FlowType {
+  INCOME
+  EXPENSE
+}
+
+enum DonationStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum QurbanType {
+  SAPI
+  KAMBING
+  DOMBA
+}
+
+enum QurbanStatus {
+  RECEIVED
+  SLAUGHTERED
+  DISTRIBUTED
+}
+
+enum DistributionStatus {
+  PENDING
+  DISTRIBUTED
+}
+
+enum RecipientCategory {
+  FAKIR_MISKIN
+  WARGA_SEKITAR
+  PANITIA
+  MUSTAHIK_LUAR
+}
+
+model User {
+  id           String     @id @default(uuid())
+  name         String
+  email        String     @unique
+  passwordHash String
+  role         Role       @default(USER)
+  donations    Donation[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Activity {
+  id            String   @id @default(uuid())
+  title         String
+  description   String?
+  startDateTime DateTime
+  endDateTime   DateTime
+  speaker       String?
+  location      String   @default("Ruang Utama Masjid")
+  posterUrl     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model FinancialReport {
+  id          String   @id @default(uuid())
+  type        FlowType
+  amount      Float
+  description String
+  date        DateTime @default(now())
+  category    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Donation {
+  id             String         @id @default(uuid())
+  amount         Float
+  donorName      String         @default("Hamba Allah")
+  donorEmail     String?
+  status         DonationStatus @default(PENDING)
+  paymentProof   String?
+  paymentType    String         @default("MANUAL")
+  gatewayRef     String?
+  userId         String?
+  user           User?          @relation(fields: [userId], references: [id])
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model Qurban {
+  id            String               @id @default(uuid())
+  mudhohiName   String
+  mudhohiEmail  String?
+  mudhohiPhone  String?
+  type          QurbanType
+  weight        Float?
+  price         Float?
+  status        QurbanStatus         @default(RECEIVED)
+  distributions QurbanDistribution[]
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+}
+
+model QurbanDistribution {
+  id               String             @id @default(uuid())
+  recipientName    String
+  recipientAddress String?
+  category         RecipientCategory  @default(FAKIR_MISKIN)
+  couponNumber     String             @unique
+  status           DistributionStatus @default(PENDING)
+  qurbanId         String?
+  qurban           Qurban?            @relation(fields: [qurbanId], references: [id])
+  distributedAt    DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model AuditTrail {
+  id        String   @id @default(uuid())
+  userId    String
+  userEmail String
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+}
