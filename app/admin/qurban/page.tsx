@@ -5,15 +5,25 @@ import QurbanForm from './QurbanForm';
 import DeleteQurbanBtn from './DeleteQurbanBtn';
 const prisma = new PrismaClient();
 
-export default async function QurbanAdminPage({ searchParams }: { searchParams: { year?: string } }) {
+export default async function QurbanAdminPage({ 
+  searchParams 
+}: { 
+  searchParams: Promise<{ year?: string }> 
+}) {
   const currentYear = new Date().getFullYear();
-  const activeYear = searchParams.year || currentYear.toString();
+  const params = await searchParams;
+  const activeYear = params.year || currentYear.toString();
   
   // Generate last 5 years for filter options
   const years = Array.from({length: 5}, (_, i) => (currentYear - i).toString());
   
   const records = await prisma.qurban.findMany({
-    where: { year: activeYear },
+    where: { 
+      createdAt: {
+        gte: new Date(`${activeYear}-01-01T00:00:00.000Z`),
+        lte: new Date(`${activeYear}-12-31T23:59:59.999Z`)
+      }
+    },
     orderBy: { createdAt: 'desc' }
   });
 
@@ -23,8 +33,8 @@ export default async function QurbanAdminPage({ searchParams }: { searchParams: 
     }).format(date);
   };
 
-  const totalSapi = records.filter(r => r.animalType === 'SAPI').length;
-  const totalKambing = records.filter(r => r.animalType === 'KAMBING').length;
+  const totalSapi = records.filter(r => r.type === 'SAPI').length;
+  const totalKambing = records.filter(r => r.type === 'KAMBING').length;
 
   return (
     <div className="space-y-6">
@@ -79,17 +89,17 @@ export default async function QurbanAdminPage({ searchParams }: { searchParams: 
                   <tr key={rec.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">{formatDate(rec.createdAt)}</td>
                     <td className="px-6 py-4 font-medium text-slate-800">{rec.mudhohiName}</td>
-                    <td className="px-6 py-4">{rec.phoneNumber || '-'}</td>
+                    <td className="px-6 py-4">{rec.mudhohiPhone || '-'}</td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 rounded text-xs font-bold ${
-                        rec.animalType === 'SAPI' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'
+                        rec.type === 'SAPI' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'
                       }`}>
-                        {rec.animalType}
+                        {rec.type}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 rounded text-xs font-bold ${
-                        rec.status === 'LUNAS' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                        rec.status === 'RECEIVED' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
                       }`}>
                         {rec.status}
                       </span>

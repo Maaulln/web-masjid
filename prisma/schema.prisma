@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -7,52 +7,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
-enum Role {
-  ADMIN
-  USER
-}
-
-enum FlowType {
-  INCOME
-  EXPENSE
-}
-
-enum DonationStatus {
-  PENDING
-  SUCCESS
-  FAILED
-}
-
-enum QurbanType {
-  SAPI
-  KAMBING
-  DOMBA
-}
-
-enum QurbanStatus {
-  RECEIVED
-  SLAUGHTERED
-  DISTRIBUTED
-}
-
-enum DistributionStatus {
-  PENDING
-  DISTRIBUTED
-}
-
-enum RecipientCategory {
-  FAKIR_MISKIN
-  WARGA_SEKITAR
-  PANITIA
-  MUSTAHIK_LUAR
-}
-
 model User {
   id           String     @id @default(uuid())
   name         String
   email        String     @unique
   passwordHash String
-  role         Role       @default(USER)
+  role         String     @default("USER")
   donations    Donation[]
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
@@ -62,6 +22,7 @@ model Activity {
   id            String   @id @default(uuid())
   title         String
   description   String?
+  type          String
   startDateTime DateTime
   endDateTime   DateTime
   speaker       String?
@@ -73,7 +34,7 @@ model Activity {
 
 model FinancialReport {
   id          String   @id @default(uuid())
-  type        FlowType
+  type        String
   amount      Float
   description String
   date        DateTime @default(now())
@@ -87,7 +48,7 @@ model Donation {
   amount         Float
   donorName      String         @default("Hamba Allah")
   donorEmail     String?
-  status         DonationStatus @default(PENDING)
+  status         String         @default("PENDING")
   paymentProof   String?
   paymentType    String         @default("MANUAL")
   gatewayRef     String?
@@ -102,10 +63,10 @@ model Qurban {
   mudhohiName   String
   mudhohiEmail  String?
   mudhohiPhone  String?
-  type          QurbanType
+  type          String
   weight        Float?
   price         Float?
-  status        QurbanStatus         @default(RECEIVED)
+  status        String               @default("RECEIVED")
   distributions QurbanDistribution[]
   createdAt     DateTime             @default(now())
   updatedAt     DateTime             @updatedAt
@@ -115,9 +76,9 @@ model QurbanDistribution {
   id               String             @id @default(uuid())
   recipientName    String
   recipientAddress String?
-  category         RecipientCategory  @default(FAKIR_MISKIN)
+  category         String             @default("FAKIR_MISKIN")
   couponNumber     String             @unique
-  status           DistributionStatus @default(PENDING)
+  status           String             @default("PENDING")
   qurbanId         String?
   qurban           Qurban?            @relation(fields: [qurbanId], references: [id])
   distributedAt    DateTime?

@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { addQurban } from './actions';
-import { Plus } from 'lucide-react';
+import { Plus } from '@phosphor-icons/react/dist/ssr';
 
 import toast from 'react-hot-toast';
 
@@ -38,7 +38,7 @@ export default function QurbanForm() {
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-emerald-950/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-md overflow-hidden">
             <div className="p-6 border-b border-slate-100 flex justify-between items-center">
               <h3 className="text-lg font-bold text-slate-800">Pendaftaran Qurban</h3>

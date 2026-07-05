@@ -3,7 +3,7 @@
 import { PrismaClient } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../api/auth/[...nextauth]/route';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 const prisma = new PrismaClient();
 
@@ -47,6 +47,9 @@ export async function addFinancialRecord(formData: FormData) {
 
     revalidatePath('/admin/keuangan');
     revalidatePath('/admin/dashboard');
+    revalidatePath('/');
+    revalidatePath('/transparansi');
+    revalidateTag('financial-summary', 'max');
     return { success: true };
   } catch (error: unknown) {
     const err = error as Error;
@@ -78,6 +81,9 @@ export async function deleteFinancialRecord(id: string) {
 
     revalidatePath('/admin/keuangan');
     revalidatePath('/admin/dashboard');
+    revalidatePath('/');
+    revalidatePath('/transparansi');
+    revalidateTag('financial-summary', 'max');
     return { success: true };
   } catch (error) {
     return { success: false, error: 'Gagal menghapus data' };

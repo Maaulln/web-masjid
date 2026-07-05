@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { deleteQurban } from './actions';
-import { Trash2 } from 'lucide-react';
+import { Trash as Trash2 } from '@phosphor-icons/react/dist/ssr';
 
 import toast from 'react-hot-toast';
 

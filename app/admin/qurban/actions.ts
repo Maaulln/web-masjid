@@ -28,10 +28,9 @@ export async function addQurban(formData: FormData) {
       await tx.qurban.create({
         data: {
           mudhohiName,
-          phoneNumber: phoneNumber || null,
-          animalType,
-          status,
-          year: new Date().getFullYear().toString()
+          mudhohiPhone: phoneNumber || null,
+          type: animalType,
+          status: status === 'LUNAS' ? 'RECEIVED' : 'RECEIVED', // Mapped DP/Lunas to RECEIVED since schema expects QurbanStatus
         }
       });
 

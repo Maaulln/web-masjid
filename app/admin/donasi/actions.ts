@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 export async function verifyDonation(donationId: string) {
   const session = await getServerSession(authOptions);
   
-  if (!session || session.user?.role !== 'ADMIN') {
+  if (!session || (session.user as any)?.role !== 'ADMIN') {
     return { success: false, error: 'Unauthorized' };
   }
 

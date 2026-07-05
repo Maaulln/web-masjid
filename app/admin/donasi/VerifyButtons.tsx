@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { verifyDonation, rejectDonation } from './actions';
-import { Check, X } from 'lucide-react';
+import { Check, X } from '@phosphor-icons/react/dist/ssr';
 
 import toast from 'react-hot-toast';
 

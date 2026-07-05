@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { addFinancialRecord } from './actions';
-import { Plus } from 'lucide-react';
+import { Plus } from '@phosphor-icons/react/dist/ssr';
 
 import toast from 'react-hot-toast';
 
@@ -38,7 +38,7 @@ export default function KeuanganForm() {
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-emerald-950/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-md overflow-hidden">
             <div className="p-6 border-b border-slate-100 flex justify-between items-center">
               <h3 className="text-lg font-bold text-slate-800">Tambah Rekam Keuangan</h3>
@@ -56,7 +56,21 @@ export default function KeuanganForm() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Kategori</label>
-                <input type="text" name="category" required placeholder="Cth: Infak Jumat / Listrik" className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                <select name="category" required className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                  <optgroup label="Pemasukan">
+                    <option value="Infaq">Infaq</option>
+                    <option value="Sedekah">Sedekah</option>
+                    <option value="Zakat">Zakat</option>
+                    <option value="Wakaf">Wakaf</option>
+                  </optgroup>
+                  <optgroup label="Pengeluaran">
+                    <option value="Operasional">Operasional</option>
+                    <option value="Pembangunan">Pembangunan</option>
+                    <option value="Kegiatan">Kegiatan</option>
+                    <option value="Sosial">Sosial</option>
+                  </optgroup>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
               </div>
 
               <div>

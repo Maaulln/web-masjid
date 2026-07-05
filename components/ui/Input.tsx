@@ -4,11 +4,14 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
-export const Input: React.FC<InputProps> = ({ label, className = '', ...props }) => {
+export const Input: React.FC<InputProps> = ({ label, className = '', id, ...props }) => {
+  // Generate a random ID if not provided, to link label and input
+  const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+
   return (
-    <div className="w-full flex flex-col gap-1">
-      {label && <label className="text-sm font-semibold text-slate-700">{label}</label>}
-      <input className={`px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 ${className}`} {...props} />
+    <div className="w-full flex flex-col gap-2">
+      {label && <label htmlFor={inputId} className="text-[11px] uppercase tracking-wider font-semibold text-[#787774] font-sans">{label}</label>}
+      <input id={inputId} className={`px-3 py-2 bg-white border border-[#EAEAEA] rounded-[4px] focus:outline-none focus:ring-1 focus:ring-emerald-950 focus:border-emerald-950 font-sans text-emerald-950 transition-colors ${className}`} {...props} />
     </div>
   );
 };
