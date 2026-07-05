@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { deleteFinancialRecord } from './actions';
 import { Trash2 } from 'lucide-react';
 
+import toast from 'react-hot-toast';
+
 export default function DeleteButton({ id }: { id: string }) {
   const [loading, setLoading] = useState(false);
 
@@ -12,7 +14,11 @@ export default function DeleteButton({ id }: { id: string }) {
       setLoading(true);
       const res = await deleteFinancialRecord(id);
       setLoading(false);
-      if (res.error) alert(res.error);
+      if (res.error) {
+        toast.error(res.error);
+      } else {
+        toast.success('Rekam keuangan dihapus');
+      }
     }
   };
 

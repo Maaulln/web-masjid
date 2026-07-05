@@ -6,7 +6,8 @@ const prisma = new PrismaClient();
 
 export default async function DonasiAdminPage() {
   const donations = await prisma.donation.findMany({
-    orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: 'desc' },
+    take: 100
   });
 
   const formatCurrency = (amount: number) => {

@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { verifyDonation, rejectDonation } from './actions';
 import { Check, X } from 'lucide-react';
 
+import toast from 'react-hot-toast';
+
 export default function VerifyButtons({ id }: { id: string }) {
   const [loading, setLoading] = useState(false);
 
@@ -12,7 +14,11 @@ export default function VerifyButtons({ id }: { id: string }) {
       setLoading(true);
       const res = await verifyDonation(id);
       setLoading(false);
-      if (res.error) alert(res.error);
+      if (res.error) {
+        toast.error(res.error);
+      } else {
+        toast.success('Donasi diverifikasi');
+      }
     }
   };
 
@@ -21,7 +27,11 @@ export default function VerifyButtons({ id }: { id: string }) {
       setLoading(true);
       const res = await rejectDonation(id);
       setLoading(false);
-      if (res.error) alert(res.error);
+      if (res.error) {
+        toast.error(res.error);
+      } else {
+        toast.success('Donasi ditolak');
+      }
     }
   };
 

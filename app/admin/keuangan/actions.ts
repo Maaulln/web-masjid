@@ -48,8 +48,9 @@ export async function addFinancialRecord(formData: FormData) {
     revalidatePath('/admin/keuangan');
     revalidatePath('/admin/dashboard');
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error.message || 'Gagal menyimpan data' };
+  } catch (error: unknown) {
+    const err = error as Error;
+    return { success: false, error: err.message || 'Gagal menyimpan data' };
   }
 }
 
@@ -78,7 +79,7 @@ export async function deleteFinancialRecord(id: string) {
     revalidatePath('/admin/keuangan');
     revalidatePath('/admin/dashboard');
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     return { success: false, error: 'Gagal menghapus data' };
   }
 }

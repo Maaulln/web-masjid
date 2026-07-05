@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { deleteActivity } from './actions';
 import { Trash2 } from 'lucide-react';
 
+import toast from 'react-hot-toast';
+
 export default function DeleteActivityBtn({ id }: { id: string }) {
   const [loading, setLoading] = useState(false);
 
@@ -12,7 +14,11 @@ export default function DeleteActivityBtn({ id }: { id: string }) {
       setLoading(true);
       const res = await deleteActivity(id);
       setLoading(false);
-      if (res.error) alert(res.error);
+      if (res.error) {
+        toast.error(res.error);
+      } else {
+        toast.success('Kegiatan dihapus');
+      }
     }
   };
 

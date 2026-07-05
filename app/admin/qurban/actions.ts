@@ -46,8 +46,9 @@ export async function addQurban(formData: FormData) {
 
     revalidatePath('/admin/qurban');
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error.message || 'Gagal menyimpan data' };
+  } catch (error: unknown) {
+    const err = error as Error;
+    return { success: false, error: err.message || 'Gagal menyimpan data' };
   }
 }
 
@@ -75,7 +76,7 @@ export async function deleteQurban(id: string) {
 
     revalidatePath('/admin/qurban');
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     return { success: false, error: 'Gagal menghapus data' };
   }
 }

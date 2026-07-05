@@ -8,7 +8,8 @@ const prisma = new PrismaClient();
 
 export default async function KegiatanAdminPage() {
   const activities = await prisma.activity.findMany({
-    orderBy: { startDateTime: 'asc' }
+    orderBy: { startDateTime: 'asc' },
+    take: 100
   });
 
   const formatDate = (date: Date) => {

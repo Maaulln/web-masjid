@@ -7,7 +7,8 @@ const prisma = new PrismaClient();
 
 export default async function KeuanganAdminPage() {
   const records = await prisma.financialReport.findMany({
-    orderBy: { date: 'desc' }
+    orderBy: { date: 'desc' },
+    take: 100
   });
 
   const totalSaldo = records.reduce((acc, curr) => {

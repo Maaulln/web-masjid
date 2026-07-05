@@ -4,6 +4,8 @@ import React, { useRef, useState } from 'react';
 import { addQurban } from './actions';
 import { Plus } from 'lucide-react';
 
+import toast from 'react-hot-toast';
+
 export default function QurbanForm() {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,8 +19,9 @@ export default function QurbanForm() {
     setLoading(false);
     
     if (res.error) {
-      alert(res.error);
+      toast.error(res.error);
     } else {
+      toast.success('Pendaftar Qurban berhasil ditambahkan');
       setIsOpen(false);
       formRef.current?.reset();
     }

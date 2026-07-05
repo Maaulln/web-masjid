@@ -58,8 +58,9 @@ export async function verifyDonation(donationId: string) {
     revalidatePath('/admin/donasi');
     revalidatePath('/admin/dashboard');
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error.message || 'Terjadi kesalahan sistem' };
+  } catch (error: unknown) {
+    const err = error as Error;
+    return { success: false, error: err.message || 'Terjadi kesalahan sistem' };
   }
 }
 
@@ -77,8 +78,9 @@ export async function rejectDonation(donationId: string) {
     });
 
     revalidatePath('/admin/donasi');
+    revalidatePath('/admin/dashboard');
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     return { success: false, error: 'Terjadi kesalahan saat menolak donasi' };
   }
 }

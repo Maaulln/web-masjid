@@ -4,6 +4,8 @@ import React, { useRef, useState } from 'react';
 import { addActivity } from './actions';
 import { Plus } from 'lucide-react';
 
+import toast from 'react-hot-toast';
+
 export default function KegiatanForm() {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,8 +19,9 @@ export default function KegiatanForm() {
     setLoading(false);
     
     if (res.error) {
-      alert(res.error);
+      toast.error(res.error);
     } else {
+      toast.success('Kegiatan berhasil ditambahkan');
       setIsOpen(false);
       formRef.current?.reset();
     }

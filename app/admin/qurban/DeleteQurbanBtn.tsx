@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { deleteQurban } from './actions';
 import { Trash2 } from 'lucide-react';
 
+import toast from 'react-hot-toast';
+
 export default function DeleteQurbanBtn({ id }: { id: string }) {
   const [loading, setLoading] = useState(false);
 
@@ -12,7 +14,11 @@ export default function DeleteQurbanBtn({ id }: { id: string }) {
       setLoading(true);
       const res = await deleteQurban(id);
       setLoading(false);
-      if (res.error) alert(res.error);
+      if (res.error) {
+        toast.error(res.error);
+      } else {
+        toast.success('Data qurban dihapus');
+      }
     }
   };
 

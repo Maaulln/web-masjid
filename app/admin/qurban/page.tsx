@@ -1,15 +1,19 @@
 import React from 'react';
 import { PrismaClient } from '@prisma/client';
+import YearFilter from './YearFilter';
 import QurbanForm from './QurbanForm';
 import DeleteQurbanBtn from './DeleteQurbanBtn';
-
 const prisma = new PrismaClient();
 
-export default async function QurbanAdminPage() {
-  const currentYear = new Date().getFullYear().toString();
+export default async function QurbanAdminPage({ searchParams }: { searchParams: { year?: string } }) {
+  const currentYear = new Date().getFullYear();
+  const activeYear = searchParams.year || currentYear.toString();
+  
+  // Generate last 5 years for filter options
+  const years = Array.from({length: 5}, (_, i) => (currentYear - i).toString());
   
   const records = await prisma.qurban.findMany({
-    where: { year: currentYear },
+    where: { year: activeYear },
     orderBy: { createdAt: 'desc' }
   });
 
@@ -26,10 +30,13 @@ export default async function QurbanAdminPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">Manajemen Qurban {currentYear}</h2>
+          <h2 className="text-2xl font-bold text-slate-800">Manajemen Qurban {activeYear}</h2>
           <p className="text-slate-500 mt-1">Data pendaftar hewan qurban (Mudhohi)</p>
         </div>
-        <QurbanForm />
+        <div className="flex items-center gap-4">
+          <YearFilter currentYear={activeYear} years={years} />
+          <QurbanForm />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

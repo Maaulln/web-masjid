@@ -4,6 +4,8 @@ import React, { useRef, useState } from 'react';
 import { addFinancialRecord } from './actions';
 import { Plus } from 'lucide-react';
 
+import toast from 'react-hot-toast';
+
 export default function KeuanganForm() {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,8 +19,9 @@ export default function KeuanganForm() {
     setLoading(false);
     
     if (res.error) {
-      alert(res.error);
+      toast.error(res.error);
     } else {
+      toast.success('Rekam keuangan ditambahkan');
       setIsOpen(false);
       formRef.current?.reset();
     }
