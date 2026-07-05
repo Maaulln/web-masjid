@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 // Simple IP based rate-limiter in-memory fallback
 const ipCache = new Map<string, { count: number; resetAt: number }>();

@@ -1,30 +1,32 @@
 import React from 'react';
-import { PrismaClient } from '@prisma/client';
 import { Wallet, Handshake as HeartHandshake, Calendar as CalendarClock, ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 async function getDashboardData() {
   const now = new Date();
   
-  // 1. Total Kas (Saldo)
-  const kasRecords = await prisma.financialReport.findMany();
-  const totalKas = kasRecords.reduce((acc, curr) => {
-    return curr.type === 'INCOME' ? acc + curr.amount : acc - curr.amount;
-  }, 0);
+  const [incomeAgg, expenseAgg, pendingDonationsCount, activeActivitiesCount] = await Promise.all([
+    prisma.financialReport.aggregate({
+      _sum: { amount: true },
+      where: { type: 'INCOME' }
+    }),
+    prisma.financialReport.aggregate({
+      _sum: { amount: true },
+      where: { type: 'EXPENSE' }
+    }),
+    prisma.donation.count({
+      where: { status: 'PENDING' }
+    }),
+    prisma.activity.count({
+      where: { endDateTime: { gte: now } }
+    })
+  ]);
 
-  // 2. Pending Donations Count
-  const pendingDonationsCount = await prisma.donation.count({
-    where: { status: 'PENDING' }
-  });
-
-  // 3. Active Activities
-  const activeActivitiesCount = await prisma.activity.count({
-    where: {
-      endDateTime: { gte: now }
-    }
-  });
+  const totalIncome = incomeAgg._sum.amount || 0;
+  const totalExpense = expenseAgg._sum.amount || 0;
+  const totalKas = totalIncome - totalExpense;
 
   return { totalKas, pendingDonationsCount, activeActivitiesCount };
 }

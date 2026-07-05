@@ -1,5 +1,4 @@
 import React from 'react';
-import { PrismaClient } from '@prisma/client';
 import { unstable_cache } from 'next/cache';
 import { Navbar } from '@/components/shared/Navbar';
 import { KasSummary } from '@/components/features/KasSummary';
@@ -13,7 +12,7 @@ import { Footer } from '@/components/shared/Footer';
 import Link from 'next/link';
 import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 const getCachedFinancialSummary = unstable_cache(
   async () => {

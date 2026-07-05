@@ -1,5 +1,4 @@
 import React from 'react';
-import { PrismaClient } from '@prisma/client';
 import { Navbar } from '@/components/shared/Navbar';
 import { Footer } from '@/components/shared/Footer';
 import { KasSummary } from '@/components/features/KasSummary';
@@ -8,7 +7,7 @@ import { KasTable } from '@/components/features/KasTable';
 
 import { SectionBadge } from '@/components/ui/SectionBadge';
 
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export const metadata = {
   title: 'Transparansi Keuangan - Masjid Al-Ikhlas',

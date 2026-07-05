@@ -1,11 +1,10 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../api/auth/[...nextauth]/route';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export async function addFinancialRecord(formData: FormData) {
   const session = await getServerSession(authOptions);

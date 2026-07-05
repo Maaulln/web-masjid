@@ -1,9 +1,8 @@
 import React from 'react';
-import { PrismaClient } from '@prisma/client';
 import YearFilter from './YearFilter';
 import QurbanForm from './QurbanForm';
 import DeleteQurbanBtn from './DeleteQurbanBtn';
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export default async function QurbanAdminPage({ 
   searchParams 

@@ -1,9 +1,8 @@
 import React from 'react';
-import { PrismaClient } from '@prisma/client';
 import KeuanganForm from './KeuanganForm';
 import DeleteButton from './DeleteButton';
 
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export default async function KeuanganAdminPage() {
   const records = await prisma.financialReport.findMany({

@@ -1,8 +1,7 @@
 import React from 'react';
-import { PrismaClient } from '@prisma/client';
 import VerifyButtons from './VerifyButtons';
 
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export default async function DonasiAdminPage() {
   const donations = await prisma.donation.findMany({

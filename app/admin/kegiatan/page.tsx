@@ -1,10 +1,9 @@
 import React from 'react';
-import { PrismaClient } from '@prisma/client';
 import KegiatanForm from './KegiatanForm';
 import DeleteActivityBtn from './DeleteActivityBtn';
 import { Calendar as CalendarIcon, Clock } from '@phosphor-icons/react/dist/ssr';
 
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export default async function KegiatanAdminPage() {
   const activities = await prisma.activity.findMany({
