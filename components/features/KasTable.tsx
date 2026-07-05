@@ -13,22 +13,9 @@ interface KasTableProps {
   transactions: Transaction[];
 }
 
-export const KasTable: React.FC<KasTableProps> = ({ transactions }) => {
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('id-ID', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    }).format(date);
-  };
+import { formatCurrency, formatDate } from '@/lib/utils';
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0
-    }).format(amount);
-  };
+export const KasTable: React.FC<KasTableProps> = ({ transactions }) => {
 
   return (
     <div className="w-full overflow-hidden bg-transparent">

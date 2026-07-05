@@ -31,16 +31,10 @@ async function getDashboardData() {
   return { totalKas, pendingDonationsCount, activeActivitiesCount };
 }
 
+import { formatCurrency } from '@/lib/utils';
+
 export default async function DashboardPage() {
   const data = await getDashboardData();
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
 
   return (
     <div className="space-y-12 max-w-7xl mx-auto">
