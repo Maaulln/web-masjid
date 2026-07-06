@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -20,9 +20,15 @@ function LoginForm() {
     if (res?.error) {
       setError('Email atau Password salah.');
     } else {
+      const session = await getSession();
       const urlParams = new URLSearchParams(window.location.search);
       const callbackUrl = urlParams.get('callbackUrl');
-      router.push(callbackUrl || '/admin/dashboard');
+      
+      if (session?.user && (session.user as any).role === 'ADMIN') {
+        router.push(callbackUrl || '/admin/dashboard');
+      } else {
+        router.push(callbackUrl || '/');
+      }
     }
   };
 
