@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import './globals.css';
 import { DM_Sans, Newsreader } from 'next/font/google';
 import ToastProvider from '@/components/providers/ToastProvider';
+import SessionProvider from '@/components/providers/SessionProvider';
 
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' });
 const newsreader = Newsreader({ subsets: ['latin'], variable: '--font-serif' });
@@ -32,8 +33,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id">
       <body className={`${dmSans.variable} ${newsreader.variable} font-sans antialiased text-emerald-950 bg-[#FBFBFA]`}>
-        <ToastProvider />
-        {children}
+        <SessionProvider>
+          <ToastProvider />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

@@ -14,6 +14,8 @@ export const metadata = {
   description: 'Laporan kas keuangan Masjid Miftahlul Jannah yang transparan dan dapat diakses jamaah',
 };
 
+export const revalidate = 60;
+
 export default async function TransparansiPage() {
   // Fetch all for summary and chart
   const reports = await prisma.financialReport.findMany({

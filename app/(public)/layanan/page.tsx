@@ -1,13 +1,14 @@
 import React from 'react';
 import { Navbar } from '@/components/shared/Navbar';
 import { Footer } from '@/components/shared/Footer';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import Link from 'next/link';
+import { LayananButton } from './LayananButton';
 
-export default async function LayananPage() {
-  const session = await getServerSession(authOptions);
+export const metadata = {
+  title: 'Layanan Masjid - Masjid Miftahlul Jannah',
+  description: 'Fasilitas dan layanan sosial kemasyarakatan dari Masjid Miftahlul Jannah.',
+};
 
+export default function LayananPage() {
   return (
     <div className="min-h-[100dvh] bg-[#FDFBF7] text-emerald-950 flex flex-col relative overflow-hidden">
       
@@ -41,20 +42,7 @@ export default async function LayananPage() {
             </div>
 
             <div className="relative z-10 flex items-center justify-start">
-              {session ? (
-                <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="group/btn relative flex items-center gap-4 bg-emerald-950 text-white px-6 py-3 rounded-full font-sans font-semibold tracking-wide transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98]">
-                  <span>Pesan Jadwal via WhatsApp</span>
-                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-transform duration-500 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-[1px] group-hover/btn:scale-105">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M1 11L11 1M11 1H3M11 1V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                </a>
-              ) : (
-                <Link href="/login?callbackUrl=/layanan" className="group/btn relative flex items-center gap-4 bg-white text-emerald-950 border border-emerald-950 px-6 py-3 rounded-full font-sans font-semibold tracking-wide transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-emerald-50 active:scale-[0.98]">
-                  <span>Login untuk Memesan</span>
-                </Link>
-              )}
+              <LayananButton />
             </div>
           </div>
         </div>

@@ -2,19 +2,16 @@ import React from 'react';
 import { Navbar } from '@/components/shared/Navbar';
 import { Footer } from '@/components/shared/Footer';
 import { SectionBadge } from '@/components/ui/SectionBadge';
-import { DonasiForm } from '@/components/features/DonasiForm';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import Link from 'next/link';
+import { DonasiWrapper } from './DonasiWrapper';
 
 export const metadata = {
   title: 'Donasi Online - Masjid Miftahlul Jannah',
   description: 'Salurkan donasi Anda untuk kemakmuran masjid dan umat.',
 };
 
-export default async function DonasiPage() {
-  const session = await getServerSession(authOptions);
+export const revalidate = 60;
 
+export default function DonasiPage() {
   return (
     <div className="min-h-[100dvh] bg-[#FDFBF7] flex flex-col relative overflow-hidden">
       {/* Noise Texture */}
@@ -33,21 +30,7 @@ export default async function DonasiPage() {
           </p>
         </div>
 
-        {session ? (
-          <DonasiForm />
-        ) : (
-          <div className="w-full p-1.5 bg-emerald-950/5 ring-1 ring-emerald-950/5 rounded-[2.5rem]">
-            <div className="bg-[#FDFBF7] p-10 md:p-14 rounded-[calc(2.5rem-0.375rem)] shadow-[inset_0_1px_1px_rgba(255,255,255,1)] flex flex-col items-center text-center">
-              <h2 className="text-2xl font-serif text-emerald-950 mb-4">Silakan Login</h2>
-              <p className="text-[#787774] font-light mb-8 max-w-sm">
-                Anda perlu masuk ke akun Anda untuk menyalurkan donasi. Jika belum memiliki akun, silakan mendaftar.
-              </p>
-              <Link href="/login?callbackUrl=/donasi" className="px-8 py-4 bg-emerald-950 text-white rounded-full font-bold tracking-widest uppercase text-xs hover:scale-[1.02] transition-transform duration-300">
-                Masuk / Daftar
-              </Link>
-            </div>
-          </div>
-        )}
+        <DonasiWrapper />
 
       </main>
       <Footer />

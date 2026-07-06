@@ -2,10 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
-export const NavbarClient = ({ isLoggedIn, isAdmin, userName }: { isLoggedIn: boolean; isAdmin?: boolean; userName?: string }) => {
+export const NavbarClient = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session, status } = useSession();
+  
+  const isLoggedIn = !!session;
+  const isAdmin = session?.user && (session.user as any).role === 'ADMIN';
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -55,7 +59,9 @@ export const NavbarClient = ({ isLoggedIn, isAdmin, userName }: { isLoggedIn: bo
 
             {/* Desktop CTA */}
             <div className="hidden md:flex items-center gap-2 ml-4">
-              {isAdmin ? (
+              {status === 'loading' ? (
+                <div className="px-5 py-2 w-24 h-8 rounded-full bg-emerald-950/5 animate-pulse"></div>
+              ) : isAdmin ? (
                 <Link href="/admin/dashboard" className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase text-emerald-900 hover:bg-emerald-50 transition-colors duration-300">
                   Admin
                 </Link>
@@ -137,7 +143,9 @@ export const NavbarClient = ({ isLoggedIn, isAdmin, userName }: { isLoggedIn: bo
                   Donasi Sekarang
                 </Link>
                 
-                {isAdmin ? (
+                {status === 'loading' ? (
+                  <div className="w-full py-4 bg-emerald-950/5 rounded-full animate-pulse h-[54px]"></div>
+                ) : isAdmin ? (
                   <Link 
                     href="/admin/dashboard" 
                     onClick={() => setIsOpen(false)}
