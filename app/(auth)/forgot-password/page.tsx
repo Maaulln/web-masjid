@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
@@ -22,6 +23,9 @@ export default function ForgotPasswordPage() {
         {message && <p className="text-emerald-700 text-sm font-semibold">{message}</p>}
         <Input label="Email Terdaftar" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <Button type="submit" className="w-full mt-2">Kirim Tautan Reset</Button>
+        <div className="text-sm mt-2 text-center text-emerald-700">
+          Kembali ke <Link href="/login" className="hover:underline font-semibold">halaman login</Link>
+        </div>
       </form>
     </div>
   );
