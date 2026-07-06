@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { signOut } from 'next-auth/react';
 
-export const NavbarClient = ({ isLoggedIn, isAdmin }: { isLoggedIn: boolean; isAdmin?: boolean }) => {
+export const NavbarClient = ({ isLoggedIn, isAdmin, userName }: { isLoggedIn: boolean; isAdmin?: boolean; userName?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Lock body scroll when mobile menu is open
@@ -60,9 +60,9 @@ export const NavbarClient = ({ isLoggedIn, isAdmin }: { isLoggedIn: boolean; isA
                   Admin
                 </Link>
               ) : isLoggedIn ? (
-                <button onClick={() => signOut({ callbackUrl: '/' })} className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase text-red-700 hover:bg-red-50 transition-colors duration-300">
-                  Keluar
-                </button>
+                <Link href="/akun" className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase text-emerald-900 hover:bg-emerald-50 transition-colors duration-300">
+                  Akun Saya
+                </Link>
               ) : (
                 <Link href="/login" className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase text-[#787774] hover:text-emerald-900 hover:bg-emerald-50 transition-colors duration-300">
                   Login
@@ -146,15 +146,13 @@ export const NavbarClient = ({ isLoggedIn, isAdmin }: { isLoggedIn: boolean; isA
                     Dashboard Admin
                   </Link>
                 ) : isLoggedIn ? (
-                  <button 
-                    onClick={() => {
-                      setIsOpen(false);
-                      signOut({ callbackUrl: '/' });
-                    }}
-                    className="w-full py-4 border border-red-200 text-red-700 rounded-full text-center text-sm font-bold tracking-widest uppercase"
+                  <Link 
+                    href="/akun" 
+                    onClick={() => setIsOpen(false)}
+                    className="w-full py-4 border border-emerald-950/10 text-emerald-950 rounded-full text-center text-sm font-bold tracking-widest uppercase"
                   >
-                    Keluar Akun
-                  </button>
+                    Dasbor Akun Saya
+                  </Link>
                 ) : (
                   <Link 
                     href="/login" 

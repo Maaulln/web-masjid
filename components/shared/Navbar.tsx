@@ -10,6 +10,7 @@ export const Navbar = async () => {
     <NavbarClient 
       isLoggedIn={!!session} 
       isAdmin={session?.user && (session.user as any).role === 'ADMIN'} 
+      userName={session?.user?.name || ''}
     />
   );
 };
