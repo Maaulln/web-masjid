@@ -1,10 +1,14 @@
 import React from 'react';
+import { Navbar } from '@/components/shared/Navbar';
+import { Footer } from '@/components/shared/Footer';
 
 export default function LayananPage() {
   return (
-    <div className="min-h-[100dvh] bg-[#FDFBF7] text-emerald-950 px-4 py-24 md:px-12 md:py-32 relative overflow-hidden">
+    <div className="min-h-[100dvh] bg-[#FDFBF7] text-emerald-950 flex flex-col relative overflow-hidden">
       
-      {/* Macro-Whitespace Header */}
+      <Navbar />
+
+      <main className="flex-1 w-full px-4 py-24 md:px-12 md:py-32">
       <div className="max-w-6xl mx-auto mb-24 md:mb-32 flex flex-col items-center text-center">
         <span className="rounded-full px-4 py-1 text-[10px] uppercase tracking-[0.2em] font-medium bg-emerald-950 text-[#FDFBF7] mb-6">
           Layanan Jamaah
@@ -71,6 +75,9 @@ export default function LayananPage() {
         </div>
 
       </div>
+      </main>
+
+      <Footer />
     </div>
   );
 }

@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { Navbar } from '@/components/shared/Navbar';
+import { Footer } from '@/components/shared/Footer';
 
 export default function KurbanPage() {
   const [mudhohiName, setMudhohiName] = useState('');
@@ -40,9 +42,13 @@ export default function KurbanPage() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-[#FDFBF7] text-emerald-950 flex flex-col md:flex-row relative overflow-hidden">
+    <div className="min-h-[100dvh] bg-[#FDFBF7] text-emerald-950 flex flex-col relative overflow-hidden">
       {/* Noise Overlay */}
       <div className="pointer-events-none fixed inset-0 z-50 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+      
+      <Navbar />
+
+      <main className="flex-1 w-full flex flex-col md:flex-row relative z-10">
 
       {/* Left: Typography & Editorial Split */}
       <div className="w-full md:w-1/2 p-8 md:p-24 flex flex-col justify-center">
@@ -127,6 +133,9 @@ export default function KurbanPage() {
           </div>
         </div>
       </div>
+      </main>
+
+      <Footer />
     </div>
   );
 }
