@@ -1,32 +1,21 @@
-'use client';
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
+import React from 'react';
+import { Navbar } from '@/components/shared/Navbar';
+import { Footer } from '@/components/shared/Footer';
+import { ForgotPasswordForm } from './ForgotPasswordForm';
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulasi pengiriman token pemulihan
-    console.log(`Mengirim email reset password ke: ${email}`);
-    setMessage('Tautan pemulihan password telah dikirim ke email Anda.');
-    setEmail('');
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-900">
-      <form onSubmit={handleSubmit} className="p-8 bg-white rounded-lg shadow-md w-full max-w-md flex flex-col gap-4 border border-slate-100">
-        <h2 className="text-2xl font-bold text-center text-emerald-800">Lupa Password</h2>
-        {message && <p className="text-emerald-700 text-sm font-semibold">{message}</p>}
-        <Input label="Email Terdaftar" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <Button type="submit" className="w-full mt-2">Kirim Tautan Reset</Button>
-        <div className="text-sm mt-2 text-center text-emerald-700">
-          Kembali ke <Link href="/login" className="hover:underline font-semibold">halaman login</Link>
-        </div>
-      </form>
+    <div className="min-h-[100dvh] bg-[#FDFBF7] flex flex-col relative overflow-hidden">
+      {/* Noise Overlay */}
+      <div className="pointer-events-none fixed inset-0 z-50 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+      
+      <Navbar />
+
+      <main className="flex-1 w-full px-4 py-32 md:px-12 md:py-40 relative z-10 flex items-center justify-center">
+        <ForgotPasswordForm />
+      </main>
+
+      <Footer />
     </div>
   );
 }

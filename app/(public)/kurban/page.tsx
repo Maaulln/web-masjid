@@ -16,7 +16,7 @@ export default async function KurbanPage() {
       
       <Navbar />
 
-      <main className="flex-1 w-full flex flex-col md:flex-row relative z-10">
+      <main className="flex-1 w-full flex flex-col md:flex-row relative z-10 pt-24 md:pt-32">
 
       {/* Left: Typography & Editorial Split */}
       <div className="w-full md:w-1/2 p-8 md:p-24 flex flex-col justify-center">

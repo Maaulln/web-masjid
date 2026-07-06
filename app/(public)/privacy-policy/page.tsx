@@ -4,10 +4,10 @@ import { Footer } from '@/components/shared/Footer';
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col justify-between">
+    <div className="min-h-screen bg-[#FDFBF7] text-emerald-950 flex flex-col justify-between">
       <div>
         <Navbar />
-        <main className="max-w-3xl mx-auto px-6 py-12 flex flex-col gap-6">
+        <main className="max-w-3xl mx-auto px-6 py-32 md:py-40 flex flex-col gap-6 relative z-10">
           <h1 className="text-3xl font-bold text-emerald-800">Kebijakan Privasi Donatur</h1>
           <p className="text-sm text-slate-500">Terakhir diperbarui: 5 Juli 2026</p>
           
