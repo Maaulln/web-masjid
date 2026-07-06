@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { amount, donorName, donorEmail, turnstileToken } = await req.json();
+    const { amount, category, donorName, donorEmail, turnstileToken } = await req.json();
 
     // 2. Turnstile Captcha verification
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -54,6 +54,7 @@ export async function POST(req: NextRequest) {
     const donation = await prisma.donation.create({
       data: {
         amount: parseFloat(amount),
+        category: category || 'INFAQ',
         donorName: donorName || 'Hamba Allah',
         donorEmail: donorEmail || null,
         status: 'PENDING',

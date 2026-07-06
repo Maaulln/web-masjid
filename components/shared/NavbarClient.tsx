@@ -14,6 +14,9 @@ export const NavbarClient = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
   const navLinks = [
     { name: 'Beranda', href: '/' },
+    { name: 'Profil', href: '/profil' },
+    { name: 'Layanan', href: '/layanan' },
+    { name: 'Kurban', href: '/kurban' },
     { name: 'Transparansi', href: '/transparansi' }
   ];
 

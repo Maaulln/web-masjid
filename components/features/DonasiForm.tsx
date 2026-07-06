@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/Input';
 
 export const DonasiForm = () => {
   const [amount, setAmount] = useState('');
+  const [category, setCategory] = useState('INFAQ');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [token, setToken] = useState('');
@@ -26,7 +27,7 @@ export const DonasiForm = () => {
     const res = await fetch('/api/donasi', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount, donorName: name, donorEmail: email, turnstileToken: token }),
+      body: JSON.stringify({ amount, category, donorName: name, donorEmail: email, turnstileToken: token }),
     });
 
     const data = await res.json();
@@ -49,11 +50,27 @@ export const DonasiForm = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input label="Jumlah Donasi (Nominal Rp)" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required min="10000" />
-          <Input label="Nama Donatur (Opsional)" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Hamba Allah" />
+          <div className="w-full flex flex-col gap-2">
+            <label className="text-[11px] uppercase tracking-wider font-semibold text-[#787774] font-sans">Kategori Dana</label>
+            <select 
+              value={category} 
+              onChange={(e) => setCategory(e.target.value)} 
+              className="px-3 py-2 h-[42px] bg-white border border-[#EAEAEA] rounded-[4px] focus:outline-none focus:ring-1 focus:ring-emerald-950 focus:border-emerald-950 font-sans text-emerald-950 transition-colors"
+            >
+              <option value="INFAQ">Infaq Operasional</option>
+              <option value="ZAKAT_FITRAH">Zakat Fitrah</option>
+              <option value="ZAKAT_MAL">Zakat Mal</option>
+              <option value="WAKAF">Wakaf Pembangunan</option>
+            </select>
+          </div>
         </div>
         
-        <Input label="Email Donatur (Opsional)" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Untuk bukti kuitansi digital" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Input label="Nama Donatur (Opsional)" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Hamba Allah" />
+          <Input label="Email Donatur (Opsional)" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Untuk bukti kuitansi digital" />
+        </div>
         
+
         <div className="my-4 flex justify-center">
           <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x0000000000000000000000'} onSuccess={handleSuccess} />
         </div>
