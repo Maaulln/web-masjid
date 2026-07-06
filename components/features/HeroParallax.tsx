@@ -2,6 +2,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 import { SectionBadge } from '@/components/ui/SectionBadge';
 
@@ -56,9 +57,12 @@ export const HeroParallax = () => {
             style={{ y }} 
             className="absolute inset-0 w-full h-[120%] origin-top"
           >
-            <div 
-              className="absolute inset-0 bg-cover bg-center" 
-              style={{ backgroundImage: `url('/images/mosque_interior.png')` }}
+            <Image 
+              src="/images/mosque_interior.png"
+              alt="Mosque Interior"
+              fill
+              priority
+              className="object-cover object-center"
             />
           </motion.div>
           {/* Subtle Inner Shadow to mimic bezel depth */}

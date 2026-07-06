@@ -16,28 +16,40 @@ import { prisma } from '@/lib/prisma';
 
 const getCachedFinancialSummary = unstable_cache(
   async () => {
-    const reports = await prisma.financialReport.findMany();
-    let totalIncome = 0;
-    let totalExpense = 0;
-    reports.forEach(r => {
-      if (r.type === 'INCOME') totalIncome += r.amount;
-      else totalExpense += r.amount;
-    });
+    const [income, expense] = await Promise.all([
+      prisma.financialReport.aggregate({
+        _sum: { amount: true },
+        where: { type: 'INCOME' }
+      }),
+      prisma.financialReport.aggregate({
+        _sum: { amount: true },
+        where: { type: 'EXPENSE' }
+      })
+    ]);
+    const totalIncome = income._sum.amount || 0;
+    const totalExpense = expense._sum.amount || 0;
     return { totalIncome, totalExpense, balance: totalIncome - totalExpense };
   },
   ['financial-summary-key'],
-  { tags: ['financial-summary'] }
+  { tags: ['financial-summary'], revalidate: 3600 }
+);
+
+const getCachedActivities = unstable_cache(
+  async () => {
+    return prisma.activity.findMany({
+      where: {
+        endDateTime: { gte: new Date() }
+      },
+      orderBy: { startDateTime: 'asc' }
+    });
+  },
+  ['active-activities-key'],
+  { tags: ['activities'], revalidate: 3600 }
 );
 
 export default async function LandingPage() {
   const summary = await getCachedFinancialSummary();
-  
-  const activeActivities = await prisma.activity.findMany({
-    where: {
-      endDateTime: { gte: new Date() }
-    },
-    orderBy: { startDateTime: 'asc' }
-  });
+  const activeActivities = await getCachedActivities();
 
   return (
     <div className="min-h-[100dvh] bg-[#FDFBF7] flex flex-col relative overflow-hidden">
