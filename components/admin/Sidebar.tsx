@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { SquaresFour as LayoutDashboard, Wallet, Handshake as HeartHandshake, Calendar as CalendarClock, GitPullRequest as GitPullRequestDraft, SignOut as LogOut } from '@phosphor-icons/react/dist/ssr';
 import { signOut } from 'next-auth/react';
 
@@ -16,6 +16,13 @@ const menuItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    menuItems.forEach((item) => {
+      router.prefetch(item.href);
+    });
+  }, [router]);
 
   return (
     <aside className="w-full h-full bg-emerald-950 text-white flex flex-col rounded-[2rem] shadow-2xl relative overflow-hidden">
@@ -35,6 +42,7 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
+              prefetch={true}
               className={`flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 ${
                 isActive
                   ? 'bg-white/10 text-white font-bold shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]'

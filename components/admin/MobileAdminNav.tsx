@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { SquaresFour as LayoutDashboard, Wallet, Handshake as HeartHandshake, Calendar as CalendarClock, GitPullRequest as GitPullRequestDraft } from '@phosphor-icons/react/dist/ssr';
 
@@ -16,6 +16,13 @@ const menuItems = [
 
 export default function MobileAdminNav() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    menuItems.forEach((item) => {
+      router.prefetch(item.href);
+    });
+  }, [router]);
 
   return (
     <div className="md:hidden fixed bottom-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
@@ -33,6 +40,7 @@ export default function MobileAdminNav() {
               <Link
                 key={item.name}
                 href={item.href}
+                prefetch={true}
                 className="relative group px-4 py-2 flex flex-col items-center justify-center transition-transform active:scale-95"
               >
                 {isActive && (
