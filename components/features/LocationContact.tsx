@@ -8,7 +8,7 @@ export const LocationContact = () => {
         {/* Left: Google Maps Embed */}
         <div className="flex-1 min-h-[400px] md:min-h-[500px] bg-gray-200 relative">
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15865.176465492265!2d106.82025175!3d-6.224898!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e9a5940e79%3A0xc32c4fb7199c0a64!2sMasjid%20Al-Ikhlas!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3949.0336667460747!2d112.60819717543893!3d-8.199362882242493!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e78a1c1af149071%3A0x7351b61f9f4288de!2sMasjid%20Miftahul%20Jannah!5e0!3m2!1sid!2sid!4v1783307881164!5m2!1sid!2sid" 
             width="100%" 
             height="100%" 
             style={{ border: 0, filter: 'grayscale(0.6) contrast(1.1) opacity(0.9)' }} 
@@ -24,11 +24,11 @@ export const LocationContact = () => {
         <div className="flex-1 p-10 md:p-16 flex flex-col justify-center gap-10">
           <div className="flex flex-col gap-4">
             <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-emerald-900">Lokasi Utama</span>
-            <h3 className="text-3xl md:text-4xl font-serif text-emerald-950 leading-tight">Masjid Al-Ikhlas</h3>
+            <h3 className="text-3xl md:text-4xl font-serif text-emerald-950 leading-tight">Masjid Miftahlul Jannah</h3>
             <p className="text-lg text-[#787774] leading-relaxed">
-              Jl. Kemaslahatan Umat No. 99<br />
-              Kecamatan Damai, Kota Sejahtera<br />
-              12345
+              RJ26+782, Pagelaran Kidul, Pagelaran<br />
+              Kec. Pagelaran, Kabupaten Malang<br />
+              Jawa Timur 65174
             </p>
           </div>
           

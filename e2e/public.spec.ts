@@ -5,7 +5,7 @@ test.describe('Public Pages', () => {
     await page.goto('/');
     
     // Check main title
-    await expect(page.getByText('Selamat Datang di Masjid Al-Ikhlas')).toBeVisible();
+    await expect(page.getByText('Selamat Datang di Masjid Miftahlul Jannah')).toBeVisible();
     
     // Check Kas summary is rendered
     await expect(page.getByText('Pemasukan Kas')).toBeVisible();

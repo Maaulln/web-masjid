@@ -40,7 +40,7 @@ export default async function DashboardPage() {
     <div className="space-y-12 max-w-7xl mx-auto">
       <div>
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-emerald-950 tracking-tight">Ikhtisar</h2>
-        <p className="text-[#787774] mt-3 font-medium text-sm md:text-base">Selamat datang di Panel Administrasi Masjid Al-Ikhlas</p>
+        <p className="text-[#787774] mt-3 font-medium text-sm md:text-base">Selamat datang di Panel Administrasi Masjid Miftahlul Jannah</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
           <h1 className="text-3xl font-bold text-emerald-800">Kebijakan Privasi Donatur</h1>
           <p className="text-sm text-slate-500">Terakhir diperbarui: 5 Juli 2026</p>
           
-          <p>Masjid Al-Ikhlas berkomitmen untuk melindungi data pribadi jamaah dan donatur kami. Halaman ini menjelaskan bagaimana kami mengumpulkan dan mengelola data Anda.</p>
+          <p>Masjid Miftahlul Jannah berkomitmen untuk melindungi data pribadi jamaah dan donatur kami. Halaman ini menjelaskan bagaimana kami mengumpulkan dan mengelola data Anda.</p>
           
           <h2 className="text-xl font-bold text-slate-900 mt-4">1. Data Yang Kami Kumpulkan</h2>
           <p>Kami hanya mengumpulkan data kontak esensial seperti nama, alamat email, dan nomor WhatsApp guna kebutuhan pengiriman notifikasi transaksi, tanda terima resmi, dan verifikasi.</p>

@@ -37,7 +37,7 @@ export const NavbarClient = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
               <div className="w-8 h-8 rounded-full bg-emerald-900 flex items-center justify-center text-[#FBFBFA] font-serif font-bold text-lg leading-none transform group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
                 M
               </div>
-              <span className="font-bold text-sm tracking-tight text-emerald-950 hidden md:block">Masjid Al-Ikhlas</span>
+              <span className="font-bold text-sm tracking-tight text-emerald-950 hidden md:block">Masjid Miftahlul Jannah</span>
             </Link>
 
             {/* Desktop Links */}

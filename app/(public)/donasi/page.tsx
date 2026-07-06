@@ -5,7 +5,7 @@ import { SectionBadge } from '@/components/ui/SectionBadge';
 import { DonasiForm } from '@/components/features/DonasiForm';
 
 export const metadata = {
-  title: 'Donasi Online - Masjid Al-Ikhlas',
+  title: 'Donasi Online - Masjid Miftahlul Jannah',
   description: 'Salurkan donasi Anda untuk kemakmuran masjid dan umat.',
 };
 

@@ -6,7 +6,7 @@ test.describe('Authentication & Middleware', () => {
     
     // Should be redirected to /login?callbackUrl=...
     await expect(page).toHaveURL(/\/login/);
-    await expect(page.getByRole('heading', { name: 'Masuk Masjid Al-Ikhlas' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Masuk Masjid Miftahlul Jannah' })).toBeVisible();
   });
 
   test('Shows error on invalid login', async ({ page }) => {

@@ -10,8 +10,8 @@ import { SectionBadge } from '@/components/ui/SectionBadge';
 import { prisma } from '@/lib/prisma';
 
 export const metadata = {
-  title: 'Transparansi Keuangan - Masjid Al-Ikhlas',
-  description: 'Laporan kas keuangan Masjid Al-Ikhlas yang transparan dan dapat diakses jamaah',
+  title: 'Transparansi Keuangan - Masjid Miftahlul Jannah',
+  description: 'Laporan kas keuangan Masjid Miftahlul Jannah yang transparan dan dapat diakses jamaah',
 };
 
 export default async function TransparansiPage() {

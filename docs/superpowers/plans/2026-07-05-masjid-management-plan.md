@@ -345,7 +345,7 @@
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <form onSubmit={handleSubmit} className="p-8 bg-white rounded-lg shadow-md w-full max-w-md flex flex-col gap-4 border border-slate-100">
-          <h2 className="text-2xl font-bold text-center text-emerald-800">Masuk Masjid Al-Ikhlas</h2>
+          <h2 className="text-2xl font-bold text-center text-emerald-800">Masuk Masjid Miftahlul Jannah</h2>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
@@ -483,7 +483,7 @@
       <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-slate-200/80 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <span className="text-2xl" aria-hidden="true">🕌</span>
-          <span className="font-bold text-xl text-emerald-800">Masjid Al-Ikhlas</span>
+          <span className="font-bold text-xl text-emerald-800">Masjid Miftahlul Jannah</span>
         </div>
         <div className="flex gap-6 items-center font-medium text-slate-700">
           <Link href="/" className="hover:text-emerald-700 transition">Beranda</Link>
@@ -575,19 +575,19 @@
   import '@/styles/globals.css';
 
   export const metadata: Metadata = {
-    title: 'Sistem Informasi & Donasi Masjid Al-Ikhlas',
+    title: 'Sistem Informasi & Donasi Masjid Miftahlul Jannah',
     description: 'Transparansi saldo kas, jadwal kegiatan kajian, dan donasi online cepat untuk kemaslahatan umat.',
     openGraph: {
-      title: 'Sistem Informasi & Donasi Masjid Al-Ikhlas',
+      title: 'Sistem Informasi & Donasi Masjid Miftahlul Jannah',
       description: 'Transparansi saldo kas, jadwal kegiatan kajian, dan donasi online cepat untuk kemaslahatan umat.',
       url: 'https://masjid-alikhlas.or.id',
-      siteName: 'Masjid Al-Ikhlas',
+      siteName: 'Masjid Miftahlul Jannah',
       images: [
         {
           url: '/images/og-masjid.png', // letakkan logo di public/images/
           width: 1200,
           height: 630,
-          alt: 'Masjid Al-Ikhlas Preview',
+          alt: 'Masjid Miftahlul Jannah Preview',
         },
       ],
       locale: 'id_ID',
@@ -646,7 +646,7 @@
         <Navbar />
         <main className="max-w-6xl mx-auto px-6 py-8 flex flex-col gap-8">
           <div className="text-center py-12 flex flex-col gap-3">
-            <h1 className="text-4xl font-extrabold text-emerald-800 tracking-tight">Selamat Datang di Masjid Al-Ikhlas</h1>
+            <h1 className="text-4xl font-extrabold text-emerald-800 tracking-tight">Selamat Datang di Masjid Miftahlul Jannah</h1>
             <p className="text-slate-600 text-lg max-w-2xl mx-auto">Pusat ibadah, pembelajaran agama, dan kegiatan kemasyarakatan yang transparan dan amanah.</p>
           </div>
 
@@ -683,14 +683,14 @@
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2 text-white">
             <span>🕌</span>
-            <span className="font-bold">Masjid Al-Ikhlas</span>
+            <span className="font-bold">Masjid Miftahlul Jannah</span>
           </div>
           <div className="flex gap-6 text-sm">
             <Link href="/" className="hover:text-white transition">Beranda</Link>
             <Link href="/donasi" className="hover:text-white transition">Donasi</Link>
             <Link href="/privacy-policy" className="hover:text-white transition text-emerald-400 font-semibold">Kebijakan Privasi</Link>
           </div>
-          <p className="text-xs">&copy; {new Date().getFullYear()} Masjid Al-Ikhlas. Hak Cipta Dilindungi.</p>
+          <p className="text-xs">&copy; {new Date().getFullYear()} Masjid Miftahlul Jannah. Hak Cipta Dilindungi.</p>
         </div>
       </footer>
     );
@@ -713,7 +713,7 @@
             <h1 className="text-3xl font-bold text-emerald-800">Kebijakan Privasi Donatur</h1>
             <p className="text-sm text-slate-500">Terakhir diperbarui: 5 Juli 2026</p>
             
-            <p>Masjid Al-Ikhlas berkomitmen untuk melindungi data pribadi jamaah dan donatur kami. Halaman ini menjelaskan bagaimana kami mengumpulkan dan mengelola data Anda.</p>
+            <p>Masjid Miftahlul Jannah berkomitmen untuk melindungi data pribadi jamaah dan donatur kami. Halaman ini menjelaskan bagaimana kami mengumpulkan dan mengelola data Anda.</p>
             
             <h2 className="text-xl font-bold text-slate-900 mt-4">1. Data Yang Kami Kumpulkan</h2>
             <p>Kami hanya mengumpulkan data kontak esensial seperti nama, alamat email, dan nomor WhatsApp guna kebutuhan pengiriman notifikasi transaksi, tanda terima resmi, dan verifikasi.</p>

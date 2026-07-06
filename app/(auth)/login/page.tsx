@@ -26,7 +26,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50">
       <form onSubmit={handleSubmit} className="p-8 bg-white rounded-lg shadow-md w-full max-w-md flex flex-col gap-4 border border-slate-100">
-        <h2 className="text-2xl font-bold text-center text-emerald-800">Masuk Masjid Al-Ikhlas</h2>
+        <h2 className="text-2xl font-bold text-center text-emerald-800">Masuk Masjid Miftahlul Jannah</h2>
         {error && <p className="text-red-500 text-sm">{error}</p>}
         <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />

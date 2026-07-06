@@ -24,7 +24,7 @@ export default function Sidebar() {
 
       <div className="p-8 border-b border-white/[0.05] relative z-10">
         <h1 className="text-3xl font-serif font-bold tracking-tight text-white">Admin.</h1>
-        <p className="text-white/40 text-[10px] mt-2 uppercase tracking-widest font-bold">Masjid Al-Ikhlas</p>
+        <p className="text-white/40 text-[10px] mt-2 uppercase tracking-widest font-bold">Masjid Miftahlul Jannah</p>
       </div>
 
       <nav className="flex-1 py-8 px-4 space-y-2 relative z-10 overflow-y-auto hide-scrollbar">

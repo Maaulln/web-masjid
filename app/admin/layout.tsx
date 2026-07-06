@@ -5,8 +5,8 @@ import { authOptions } from '../api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 
 export const metadata = {
-  title: 'Admin Dashboard - Masjid Al-Ikhlas',
-  description: 'Sistem Manajemen Masjid Al-Ikhlas',
+  title: 'Admin Dashboard - Masjid Miftahlul Jannah',
+  description: 'Sistem Manajemen Masjid Miftahlul Jannah',
 };
 
 export default async function AdminLayout({

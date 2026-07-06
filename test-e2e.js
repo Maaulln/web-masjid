@@ -24,7 +24,7 @@ async function runTests() {
     const res = await fetch(`${baseUrl}/`);
     if (res.status !== 200) throw new Error(`Status ${res.status}`);
     const text = await res.text();
-    if (!text.includes('Sistem Informasi & Donasi Masjid Al-Ikhlas') && !text.includes('Masjid Al-Ikhlas')) {
+    if (!text.includes('Sistem Informasi & Donasi Masjid Miftahlul Jannah') && !text.includes('Masjid Miftahlul Jannah')) {
       throw new Error('Title tidak ditemukan');
     }
   });

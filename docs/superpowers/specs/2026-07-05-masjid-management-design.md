@@ -72,7 +72,7 @@ Sistem memiliki 3 level hak akses yang dikelola melalui middleware Next.js:
 *   **Meta Tags Deskriptif**: Setiap halaman publik wajib memuat judul dan meta-description yang relevan (terutama untuk optimalisasi SEO mesin pencari).
 *   **WhatsApp/Telegram Link Preview (OpenGraph)**:
     Menambahkan OpenGraph metadata pada root layout (`layout.tsx`) agar saat tautan dibagikan ke WhatsApp grup pengurus/jamaah, muncul preview yang indah:
-    *   `og:title`: "Sistem Informasi & Donasi Masjid Al-Ikhlas"
+    *   `og:title`: "Sistem Informasi & Donasi Masjid Miftahlul Jannah"
     *   `og:description`: "Transparansi saldo kas, jadwal kegiatan kajian, dan donasi online cepat untuk kemaslahatan umat."
     *   `og:image`: Gambar representasi masjid (favicon / logo resolusi tinggi 1200x630).
     *   `og:type`: "website"

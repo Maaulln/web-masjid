@@ -26,7 +26,7 @@ export const HeroParallax = () => {
           Pusat Ibadah<br />& Kemaslahatan.
         </h1>
         <p className="text-[#787774] text-lg md:text-xl max-w-md leading-relaxed mt-2 font-sans font-light">
-          Masjid Al-Ikhlas menyajikan transparansi penuh atas dana umat, jadwal kajian rutin, dan kemudahan layanan secara langsung.
+          Masjid Miftahlul Jannah menyajikan transparansi penuh atas dana umat, jadwal kajian rutin, dan kemudahan layanan secara langsung.
         </p>
         
         <div className="mt-8 flex gap-6 items-center flex-wrap">

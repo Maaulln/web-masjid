@@ -39,7 +39,7 @@ export const Footer = () => {
               <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-emerald-950 font-serif font-bold text-xl leading-none">
                 M
               </div>
-              <span className="font-bold text-lg tracking-tight">Masjid Al-Ikhlas</span>
+              <span className="font-bold text-lg tracking-tight">Masjid Miftahlul Jannah</span>
             </div>
             <p className="text-white/50 leading-relaxed font-light pr-8">
               Membangun peradaban Islam dari masjid. Transparan, amanah, dan berorientasi pada kemaslahatan umat.
@@ -66,7 +66,7 @@ export const Footer = () => {
         
         {/* Copyright */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/40 font-mono">
-          <p>&copy; {new Date().getFullYear()} Masjid Al-Ikhlas. Hak Cipta Dilindungi.</p>
+          <p>&copy; {new Date().getFullYear()} Masjid Miftahlul Jannah. Hak Cipta Dilindungi.</p>
         </div>
         
       </div>
