@@ -7,6 +7,9 @@ export const Navbar = async () => {
   const session = await getServerSession(authOptions);
   
   return (
-    <NavbarClient isLoggedIn={!!session} />
+    <NavbarClient 
+      isLoggedIn={!!session} 
+      isAdmin={session?.user && (session.user as any).role === 'ADMIN'} 
+    />
   );
 };

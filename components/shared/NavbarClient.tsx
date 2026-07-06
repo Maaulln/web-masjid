@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { signOut } from 'next-auth/react';
 
-export const NavbarClient = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+export const NavbarClient = ({ isLoggedIn, isAdmin }: { isLoggedIn: boolean; isAdmin?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Lock body scroll when mobile menu is open
@@ -54,10 +55,14 @@ export const NavbarClient = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
             {/* Desktop CTA */}
             <div className="hidden md:flex items-center gap-2 ml-4">
-              {isLoggedIn ? (
+              {isAdmin ? (
                 <Link href="/admin/dashboard" className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase text-emerald-900 hover:bg-emerald-50 transition-colors duration-300">
                   Admin
                 </Link>
+              ) : isLoggedIn ? (
+                <button onClick={() => signOut({ callbackUrl: '/' })} className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase text-red-700 hover:bg-red-50 transition-colors duration-300">
+                  Keluar
+                </button>
               ) : (
                 <Link href="/login" className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase text-[#787774] hover:text-emerald-900 hover:bg-emerald-50 transition-colors duration-300">
                   Login
@@ -132,13 +137,33 @@ export const NavbarClient = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                   Donasi Sekarang
                 </Link>
                 
-                <Link 
-                  href={isLoggedIn ? "/admin/dashboard" : "/login"} 
-                  onClick={() => setIsOpen(false)}
-                  className="w-full py-4 border border-emerald-950/10 text-emerald-950 rounded-full text-center text-sm font-bold tracking-widest uppercase"
-                >
-                  {isLoggedIn ? "Dashboard Admin" : "Login Pengurus"}
-                </Link>
+                {isAdmin ? (
+                  <Link 
+                    href="/admin/dashboard" 
+                    onClick={() => setIsOpen(false)}
+                    className="w-full py-4 border border-emerald-950/10 text-emerald-950 rounded-full text-center text-sm font-bold tracking-widest uppercase"
+                  >
+                    Dashboard Admin
+                  </Link>
+                ) : isLoggedIn ? (
+                  <button 
+                    onClick={() => {
+                      setIsOpen(false);
+                      signOut({ callbackUrl: '/' });
+                    }}
+                    className="w-full py-4 border border-red-200 text-red-700 rounded-full text-center text-sm font-bold tracking-widest uppercase"
+                  >
+                    Keluar Akun
+                  </button>
+                ) : (
+                  <Link 
+                    href="/login" 
+                    onClick={() => setIsOpen(false)}
+                    className="w-full py-4 border border-emerald-950/10 text-emerald-950 rounded-full text-center text-sm font-bold tracking-widest uppercase"
+                  >
+                    Login Pengurus
+                  </Link>
+                )}
               </motion.div>
             </div>
           </motion.div>
