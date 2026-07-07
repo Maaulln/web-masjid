@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🕌 Sistem Informasi & Donasi Masjid Miftahlul Jannah
 
-## Getting Started
+Sistem Informasi Manajemen Masjid modern berbasis web yang dilengkapi dengan fitur transparansi keuangan publik, manajemen kegiatan, donasi online, dan pendaftaran kurban. Dirancang dengan desain premium, responsif, dan fokus pada keamanan tinggi.
 
-First, run the development server:
+## 🚀 Fitur Utama
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 👥 Portal Publik (Jamaah)
+- **Dashboard Transparansi Kas**: Tampilan real-time pemasukan, pengeluaran, dan saldo kas masjid.
+- **Jadwal Sholat Otomatis**: Indikator waktu sholat terdekat berdasarkan waktu lokal perangkat.
+- **Donasi Online**: Formulir donasi yang aman dengan integrasi Turnstile CAPTCHA (opsi Hamba Allah/Anonim).
+- **Pendaftaran Kurban**: Formulir pendaftaran mudhohi (Sapi/Kambing).
+- **Galeri & Informasi Kegiatan**: Jadwal kajian dan aktivitas masjid.
+- **Portal Akun Jamaah**: Riwayat donasi dan status transaksi personal.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🛡️ Portal Admin
+- **Dashboard Analitik**: Grafik keuangan 6 bulan terakhir dan metrik kunci.
+- **Verifikasi Donasi**: Sistem *Approve/Reject* donasi yang masuk dengan pencatatan otomatis ke kas.
+- **Manajemen Keuangan**: Input manual kas masuk/keluar & Export ke CSV.
+- **Manajemen Kegiatan**: Penambahan jadwal kegiatan/kajian (otomatis disembunyikan saat sudah berlalu).
+- **Manajemen Qurban**: Pengelolaan data pekurban dan status (Pending, Diterima, Disembelih).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
+- **Framework:** Next.js 16 (App Router) + Turbopack
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + Phosphor Icons
+- **Animation:** Framer Motion
+- **Database:** PostgreSQL (Supabase)
+- **ORM:** Prisma
+- **Authentication:** NextAuth.js (Credentials, JWT)
+- **Security:** Cloudflare Turnstile, Zod Validation, LRU Rate Limiting, Strict Security Headers
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Cara Instalasi & Menjalankan (Local Development)
 
-## Learn More
+1. **Clone repository ini**
+   ```bash
+   git clone https://github.com/Maaulln/web-masjid.git
+   cd web-masjid
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Setup Environment Variables**
+   Buat file `.env` di root direktori berdasarkan `.env.example`:
+   ```env
+   DATABASE_URL="postgresql://user:pass@host:6543/postgres?pgbouncer=true"
+   DIRECT_URL="postgresql://user:pass@host:5432/postgres"
+   NEXTAUTH_URL="http://localhost:3000"
+   NEXTAUTH_SECRET="random_secret_string"
+   NEXT_PUBLIC_TURNSTILE_SITE_KEY="your_site_key"
+   TURNSTILE_SECRET_KEY="your_secret_key"
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Setup Database (Prisma)**
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   npx prisma db seed # Opsional: Untuk mengisi data dummy awal (admin, kas, kegiatan)
+   ```
+   *Akun Admin default (jika di-seed): `admin@masjid-alikhlas.or.id` / `AdminIkhlas123`*
 
-## Deploy on Vercel
+5. **Jalankan Development Server**
+   ```bash
+   npm run dev
+   ```
+   Buka [http://localhost:3000](http://localhost:3000) di browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔒 Catatan Keamanan
+Aplikasi ini menerapkan standar keamanan tinggi:
+- **Connection Pool**: Menggunakan `prisma.$transaction` untuk menghindari kebocoran pool koneksi di serverless.
+- **Rate Limiting**: LRU Cache mencegah spam login, register, dan donasi.
+- **Magic Bytes Validation**: Memastikan file gambar upload tidak mengandung script berbahaya.
+- **Security Headers**: HSTS, CSP (Content Security Policy), dan pencegahan clickjacking.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📝 Lisensi
+Proyek ini dibuat untuk kebutuhan pengelolaan Masjid Miftahlul Jannah. 
