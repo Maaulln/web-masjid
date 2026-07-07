@@ -42,7 +42,7 @@ export function FinancialChart({ data }: { data: ChartData[] }) {
             dx={-10}
           />
           <Tooltip 
-            formatter={(value: number) => [formatRupiah(value), ""]}
+            formatter={(value: any) => [formatRupiah(Number(value)), ""]}
             contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
             cursor={{ fill: 'transparent' }}
           />
