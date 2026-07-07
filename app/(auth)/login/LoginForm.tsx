@@ -34,7 +34,7 @@ export function LoginForm() {
       const urlParams = new URLSearchParams(window.location.search);
       const callbackUrl = urlParams.get('callbackUrl');
       
-      if (session?.user && (session.user as any).role === 'ADMIN') {
+      if (session?.user && (session.user as { role?: string }).role === 'ADMIN') {
         router.push(callbackUrl || '/admin/dashboard');
       } else {
         router.push(callbackUrl || '/');

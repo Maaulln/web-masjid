@@ -9,8 +9,6 @@ import { GalleryBento } from '@/components/features/GalleryBento';
 import { LocationContact } from '@/components/features/LocationContact';
 import { SectionBadge } from '@/components/ui/SectionBadge';
 import { Footer } from '@/components/shared/Footer';
-import Link from 'next/link';
-import { ArrowRight } from '@phosphor-icons/react/dist/ssr';
 
 import { prisma } from '@/lib/prisma';
 

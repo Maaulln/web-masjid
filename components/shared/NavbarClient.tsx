@@ -9,7 +9,7 @@ export const NavbarClient = () => {
   const { data: session, status } = useSession();
   
   const isLoggedIn = !!session;
-  const isAdmin = session?.user && (session.user as any).role === 'ADMIN';
+  const isAdmin = session?.user && (session.user as { role?: string }).role === 'ADMIN';
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {

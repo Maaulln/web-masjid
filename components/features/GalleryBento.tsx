@@ -91,7 +91,7 @@ export const GalleryBento = () => {
             className="object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)]" 
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none flex flex-col justify-end p-8">
-            <span className="text-white font-serif text-2xl translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]">Generasi Qur'ani</span>
+            <span className="text-white font-serif text-2xl translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]">Generasi Qur&apos;ani</span>
           </div>
           <div className="absolute inset-0 ring-1 ring-inset ring-emerald-950/10 rounded-[calc(2.5rem-0.375rem)] pointer-events-none"></div>
         </div>

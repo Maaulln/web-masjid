@@ -15,7 +15,7 @@ export default async function AkunPage() {
   }
 
   const userEmail = session.user.email || '';
-  const userId = (session.user as any).id || '';
+  const userId = (session.user as { id?: string }).id || '';
 
   // Fetch Donations
   const donations = await prisma.donation.findMany({

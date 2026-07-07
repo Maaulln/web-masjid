@@ -5,7 +5,7 @@ import { requireAdmin } from '@/lib/auth-guard';
 export async function GET() {
   try {
     await requireAdmin();
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -29,7 +29,7 @@ export async function GET() {
         'Content-Disposition': 'attachment; filename="laporan-keuangan-masjid.csv"',
       },
     });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

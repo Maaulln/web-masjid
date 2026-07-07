@@ -41,8 +41,8 @@ export function RegisterForm() {
 
       // Automatically redirect to login page after successful registration
       router.push('/login?registered=true');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Terjadi kesalahan');
     } finally {
       setLoading(false);
     }

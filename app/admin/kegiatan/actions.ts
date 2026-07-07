@@ -24,7 +24,7 @@ export async function addActivity(formData: FormData) {
   let session;
   try {
     session = await requireAdmin();
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Unauthorized' };
   }
 
@@ -38,7 +38,7 @@ export async function addActivity(formData: FormData) {
 
   const validated = activitySchema.safeParse(rawData);
   if (!validated.success) {
-    return { success: false, error: validated.error.errors[0].message };
+    return { success: false, error: validated.error.issues[0].message };
   }
 
   const { title, description, type, startDateTime, endDateTime } = validated.data;
@@ -78,7 +78,7 @@ export async function deleteActivity(id: string) {
   let session;
   try {
     session = await requireAdmin();
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Unauthorized' };
   }
 

@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 
 describe('Activity Auto-Off Logic', () => {
   it('should filter out activities that have expired', () => {

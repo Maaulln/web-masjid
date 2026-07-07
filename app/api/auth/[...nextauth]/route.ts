@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 
 import { prisma } from '@/lib/prisma';
 import { verifyTurnstileToken } from '@/lib/turnstile';
+import { checkRateLimit, getRemainingTtl } from '@/lib/rate-limit';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -16,6 +17,13 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
+
+        // Rate limit login by email address (5 attempts per 15 min)
+        const key = `login:${credentials.email}`;
+        if (!checkRateLimit(key, 5, 15 * 60 * 1000)) {
+          const retryAfter = getRemainingTtl(key);
+          throw new Error(`Terlalu banyak percobaan login. Coba lagi dalam ${retryAfter} detik.`);
+        }
         
         const isTokenValid = await verifyTurnstileToken(credentials.turnstileToken);
         if (!isTokenValid) throw new Error('Verifikasi CAPTCHA gagal');
@@ -31,21 +39,21 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role;
+        token.role = (user as { id?: string; role?: string }).role;
         token.id = user.id;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).role = token.role;
-        (session.user as any).id = token.id;
+        (session.user as { role?: string; id?: string }).role = token.role as string;
+        (session.user as { role?: string; id?: string }).id = token.id as string;
       }
       return session;
     }
   },
   pages: { signIn: '/login' },
-  session: { strategy: 'jwt' }
+  session: { strategy: 'jwt', maxAge: 8 * 60 * 60 } // 8 hours
 };
 
 const handler = NextAuth(authOptions);

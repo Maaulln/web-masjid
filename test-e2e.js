@@ -1,4 +1,5 @@
-const fs = require('fs');
+import { readFileSync } from 'fs';
+void readFileSync; // imported but only for type safety — used if needed
 
 async function runTests() {
   console.log('=== Memulai Pengujian E2E ===');
@@ -7,14 +8,14 @@ async function runTests() {
 
   const baseUrl = 'http://localhost:3000';
 
-  async function test(name, fn) {
+  async function test(name: string, fn: () => Promise<void>) {
     try {
       await fn();
       console.log(`✅ [PASS] ${name}`);
       passed++;
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(`❌ [FAIL] ${name}`);
-      console.error(`   Error: ${err.message}`);
+      console.error(`   Error: ${err instanceof Error ? err.message : String(err)}`);
       failed++;
     }
   }
@@ -33,7 +34,7 @@ async function runTests() {
   await test('Login Admin dengan kredensial yang benar', async () => {
     // We need to get csrf token first
     const csrfRes = await fetch(`${baseUrl}/api/auth/csrf`);
-    const csrfData = await csrfRes.json();
+    const csrfData = await csrfRes.json() as { csrfToken: string };
     const csrfToken = csrfData.csrfToken;
 
     const res = await fetch(`${baseUrl}/api/auth/callback/credentials`, {
@@ -51,7 +52,7 @@ async function runTests() {
     });
     
     if (res.status !== 200) throw new Error(`Status ${res.status}`);
-    const data = await res.json();
+    const data = await res.json() as { url?: string };
     if (data.url && data.url.includes('error=')) {
       throw new Error(`Login Ditolak: ${data.url}`);
     }

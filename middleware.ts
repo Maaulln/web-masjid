@@ -6,6 +6,7 @@ export default withAuth(
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 
+    // Admin-only routes
     if (path.startsWith('/admin') && token?.role !== 'ADMIN') {
       return NextResponse.redirect(new URL('/unauthorized', req.url));
     }
@@ -18,5 +19,6 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ['/admin/:path*', '/dashboard/:path*'],
+  // Protect admin routes AND the user account page
+  matcher: ['/admin/:path*', '/dashboard/:path*', '/akun'],
 };

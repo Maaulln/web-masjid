@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 async function main() {
   const passwordHash = await bcrypt.hash('AdminIkhlas123', 10);
   
-  const admin = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'admin@masjid-alikhlas.or.id' },
     update: {},
     create: {
@@ -17,7 +17,7 @@ async function main() {
     },
   });
   
-  const pengurus = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'pengurus@masjid-alikhlas.or.id' },
     update: {},
     create: {
@@ -28,7 +28,7 @@ async function main() {
     },
   });
 
-  const jamaah = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: 'jamaah@masjid-alikhlas.or.id' },
     update: {},
     create: {

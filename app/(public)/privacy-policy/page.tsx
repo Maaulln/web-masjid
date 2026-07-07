@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
           <p>Kami hanya mengumpulkan data kontak esensial seperti nama, alamat email, dan nomor WhatsApp guna kebutuhan pengiriman notifikasi transaksi, tanda terima resmi, dan verifikasi.</p>
 
           <h2 className="text-xl font-bold text-slate-900 mt-4">2. Opsi Anonim (Hamba Allah)</h2>
-          <p>Demi kenyamanan donatur, kami menyediakan opsi <strong>"Anonim (Hamba Allah)"</strong> pada formulir donasi. Jika opsi ini dicentang, nama asli donatur tidak akan pernah ditampilkan di Landing Page transparansi publik (ditampilkan sebagai "Hamba Allah"). Namun, data kontak asli tetap disimpan secara privat di sistem untuk kebutuhan audit internal oleh pengurus masjid.</p>
+          <p>Demi kenyamanan donatur, kami menyediakan opsi <strong>&ldquo;Anonim (Hamba Allah)&rdquo;</strong> pada formulir donasi. Jika opsi ini dicentang, nama asli donatur tidak akan pernah ditampilkan di Landing Page transparansi publik (ditampilkan sebagai &ldquo;Hamba Allah&rdquo;). Namun, data kontak asli tetap disimpan secara privat di sistem untuk kebutuhan audit internal oleh pengurus masjid.</p>
 
           <h2 className="text-xl font-bold text-slate-900 mt-4">3. Keamanan Data</h2>
           <p>Kami menjamin data donatur disimpan secara aman dan tidak akan pernah dijual atau dibagikan kepada pihak ketiga di luar kebutuhan verifikasi langsung.</p>

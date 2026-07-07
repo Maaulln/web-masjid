@@ -16,7 +16,7 @@ export async function addQurban(formData: FormData) {
   let session;
   try {
     session = await requireAdmin();
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Unauthorized' };
   }
 
@@ -29,7 +29,7 @@ export async function addQurban(formData: FormData) {
 
   const validated = qurbanSchema.safeParse(rawData);
   if (!validated.success) {
-    return { success: false, error: validated.error.errors[0].message };
+    return { success: false, error: validated.error.issues[0].message };
   }
 
   const { mudhohiName, phoneNumber, animalType, status } = validated.data;
@@ -66,7 +66,7 @@ export async function deleteQurban(id: string) {
   let session;
   try {
     session = await requireAdmin();
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Unauthorized' };
   }
 

@@ -11,25 +11,35 @@ const defaultPrayerTimes = [
 ];
 
 export const PrayerTimes = () => {
-  const [nextPrayerIndex, setNextPrayerIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    // Simple logic to find next prayer based on current device time
+  // Compute the initial next prayer index on mount (avoids setState in effect)
+  const [nextPrayerIndex, setNextPrayerIndex] = useState<number | null>(() => {
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-    let found = false;
     for (let i = 0; i < defaultPrayerTimes.length; i++) {
       const [h, m] = defaultPrayerTimes[i].time.split(':').map(Number);
-      const prayerMinutes = h * 60 + m;
-      if (currentMinutes < prayerMinutes) {
-        setNextPrayerIndex(i);
-        found = true;
-        break;
-      }
+      if (currentMinutes < h * 60 + m) return i;
     }
-    // If all passed, next is Subuh tomorrow
-    if (!found) setNextPrayerIndex(0);
+    return 0; // Default to Subuh if all prayers have passed
+  });
+
+  useEffect(() => {
+    // Recalculate every minute to keep the indicator current
+    const interval = setInterval(() => {
+      const now = new Date();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      let found = false;
+      for (let i = 0; i < defaultPrayerTimes.length; i++) {
+        const [h, m] = defaultPrayerTimes[i].time.split(':').map(Number);
+        if (currentMinutes < h * 60 + m) {
+          setNextPrayerIndex(i);
+          found = true;
+          break;
+        }
+      }
+      if (!found) setNextPrayerIndex(0);
+    }, 60_000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (

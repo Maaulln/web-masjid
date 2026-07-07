@@ -17,7 +17,7 @@ export async function addFinancialRecord(formData: FormData) {
   let session;
   try {
     session = await requireAdmin();
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Unauthorized' };
   }
 
@@ -32,7 +32,7 @@ export async function addFinancialRecord(formData: FormData) {
   const validated = recordSchema.safeParse(rawData);
   
   if (!validated.success) {
-    return { success: false, error: validated.error.errors[0].message };
+    return { success: false, error: validated.error.issues[0].message };
   }
 
   const { type, category, description, amount, date } = validated.data;
@@ -74,7 +74,7 @@ export async function deleteFinancialRecord(id: string) {
   let session;
   try {
     session = await requireAdmin();
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Unauthorized' };
   }
 

@@ -11,13 +11,13 @@ export async function verifyDonation(donationId: string) {
   let session;
   try {
     session = await requireAdmin();
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Unauthorized' };
   }
 
   const validated = idSchema.safeParse(donationId);
   if (!validated.success) {
-    return { success: false, error: validated.error.errors[0].message };
+    return { success: false, error: validated.error.issues[0].message };
   }
 
   try {
@@ -71,16 +71,15 @@ export async function verifyDonation(donationId: string) {
 }
 
 export async function rejectDonation(donationId: string) {
-  let session;
   try {
-    session = await requireAdmin();
-  } catch (error) {
+    await requireAdmin();
+  } catch {
     return { success: false, error: 'Unauthorized' };
   }
 
   const validated = idSchema.safeParse(donationId);
   if (!validated.success) {
-    return { success: false, error: validated.error.errors[0].message };
+    return { success: false, error: validated.error.issues[0].message };
   }
 
   try {

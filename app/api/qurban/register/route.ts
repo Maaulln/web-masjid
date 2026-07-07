@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, qurbanId: qurban.id });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Qurban Registration Error:', err);
     return NextResponse.json({ error: 'Terjadi kesalahan pada server.' }, { status: 500 });
   }

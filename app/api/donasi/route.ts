@@ -1,60 +1,68 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { verifyTurnstileToken } from '@/lib/turnstile';
+import { checkRateLimit, getRemainingTtl } from '@/lib/rate-limit';
+import { z } from 'zod';
 
-// Simple IP based rate-limiter in-memory fallback
-const ipCache = new Map<string, { count: number; resetAt: number }>();
-
-async function checkRateLimit(ip: string): Promise<boolean> {
-  const now = Date.now();
-  const limit = 5;
-  const windowMs = 3600000; // 1 Jam
-
-  const record = ipCache.get(ip);
-  if (!record) {
-    ipCache.set(ip, { count: 1, resetAt: now + windowMs });
-    return true;
-  }
-
-  if (now > record.resetAt) {
-    ipCache.set(ip, { count: 1, resetAt: now + windowMs });
-    return true;
-  }
-
-  if (record.count >= limit) return false;
-
-  record.count += 1;
-  return true;
-}
+const donationSchema = z.object({
+  amount: z
+    .number()
+    .positive('Nominal donasi harus lebih dari 0')
+    .max(100_000_000, 'Nominal donasi melebihi batas maksimal (Rp 100 juta)'),
+  category: z.enum(['INFAQ', 'SEDEKAH', 'ZAKAT', 'WAKAF', 'LAINNYA']).optional().default('INFAQ'),
+  donorName: z
+    .string()
+    .max(100, 'Nama terlalu panjang')
+    .optional()
+    .default('Hamba Allah'),
+  donorEmail: z
+    .string()
+    .email('Format email tidak valid')
+    .max(255, 'Email terlalu panjang')
+    .optional()
+    .or(z.literal('')),
+  turnstileToken: z.string().min(1, 'Token CAPTCHA tidak valid'),
+});
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
-  const isAllowed = await checkRateLimit(ip);
+  // Rate limiting: 5 donations per IP per hour
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || '127.0.0.1';
+  const isAllowed = checkRateLimit(`donasi:${ip}`, 5, 3600 * 1000);
   if (!isAllowed) {
-    return NextResponse.json({ error: 'Terlalu banyak permintaan donasi. Silakan coba lagi nanti.' }, { status: 429 });
+    const retryAfter = getRemainingTtl(`donasi:${ip}`);
+    return NextResponse.json(
+      { error: 'Terlalu banyak permintaan donasi. Silakan coba lagi nanti.' },
+      { status: 429, headers: { 'Retry-After': String(retryAfter) } }
+    );
   }
 
   try {
-    const { amount, category, donorName, donorEmail, turnstileToken } = await req.json();
+    const body = await req.json();
 
-    // 2. Turnstile Captcha verification
-    const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        secret: process.env.TURNSTILE_SECRET_KEY || '1x0000000000000000000000000000000AA', // fallback testing key
-        response: turnstileToken,
-      }),
-    });
-    const verifyOutcome = await verifyRes.json();
-    if (!verifyOutcome.success) {
-      return NextResponse.json({ error: 'Verifikasi Turnstile Captcha gagal.' }, { status: 400 });
+    const validated = donationSchema.safeParse(body);
+    if (!validated.success) {
+      return NextResponse.json(
+        { error: validated.error.issues[0].message },
+        { status: 400 }
+      );
     }
 
-    // 3. Simpan data donasi PENDING
+    const { amount, category, donorName, donorEmail, turnstileToken } = validated.data;
+
+    // Turnstile CAPTCHA verification
+    const isTokenValid = await verifyTurnstileToken(turnstileToken);
+    if (!isTokenValid) {
+      return NextResponse.json(
+        { error: 'Verifikasi Turnstile Captcha gagal.' },
+        { status: 400 }
+      );
+    }
+
+    // Save pending donation
     const donation = await prisma.donation.create({
       data: {
-        amount: parseFloat(amount),
-        category: category || 'INFAQ',
+        amount,
+        category,
         donorName: donorName || 'Hamba Allah',
         donorEmail: donorEmail || null,
         status: 'PENDING',
@@ -63,7 +71,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, donationId: donation.id });
-  } catch (err: any) {
+  } catch {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

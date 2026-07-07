@@ -22,7 +22,19 @@ interface KasChartProps {
   data: ChartData[];
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface TooltipPayload {
+  value: number;
+}
+
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+}: {
+  active?: boolean;
+  payload?: TooltipPayload[];
+  label?: string;
+}) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-[#FDFBF7]/90 backdrop-blur-md p-5 border border-emerald-950/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-2xl">

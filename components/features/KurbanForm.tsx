@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Turnstile } from '@marsidev/react-turnstile';
 
@@ -39,8 +38,8 @@ export function KurbanForm() {
       setMudhohiName('');
       setMudhohiPhone('');
       setType('SAPI');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Terjadi kesalahan');
     } finally {
       setLoading(false);
     }
