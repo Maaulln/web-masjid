@@ -48,7 +48,7 @@ export default function KeuanganForm() {
             <form ref={formRef} onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Tipe</label>
-                <select name="type" required className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                <select name="type" required className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
                   <option value="INCOME">Pemasukan (Income)</option>
                   <option value="EXPENSE">Pengeluaran (Expense)</option>
                 </select>
@@ -56,7 +56,7 @@ export default function KeuanganForm() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Kategori</label>
-                <select name="category" required className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                <select name="category" required className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
                   <optgroup label="Pemasukan">
                     <option value="Infaq">Infaq</option>
                     <option value="Sedekah">Sedekah</option>
@@ -75,17 +75,17 @@ export default function KeuanganForm() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Deskripsi</label>
-                <input type="text" name="description" required placeholder="Cth: Infak Jumat 15 Nov" className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                <input type="text" name="description" required placeholder="Cth: Infak Jumat 15 Nov" className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Nominal (Rp)</label>
-                <input type="number" name="amount" required min="1" className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                <input type="number" name="amount" required min="1" className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Tanggal</label>
-                <input type="date" name="date" required defaultValue={new Date().toISOString().split('T')[0]} className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                <input type="date" name="date" required defaultValue={new Date().toISOString().split('T')[0]} className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
               </div>
 
               <div className="pt-2 flex gap-3">

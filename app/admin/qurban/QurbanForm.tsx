@@ -48,17 +48,17 @@ export default function QurbanForm() {
             <form ref={formRef} onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Nama Mudhohi (Pekurban)</label>
-                <input type="text" name="mudhohiName" required placeholder="Cth: Hamba Allah bin Fulan" className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                <input type="text" name="mudhohiName" required placeholder="Cth: Hamba Allah bin Fulan" className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">No. HP / WhatsApp (Opsional)</label>
-                <input type="text" name="phoneNumber" placeholder="Cth: 08123456789" className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                <input type="text" name="phoneNumber" placeholder="Cth: 08123456789" className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Jenis Hewan</label>
-                <select name="animalType" required className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                <select name="animalType" required className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
                   <option value="SAPI">Sapi (Kolektif / 7 Orang)</option>
                   <option value="KAMBING">Kambing / Domba</option>
                 </select>
@@ -66,7 +66,7 @@ export default function QurbanForm() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Status Pembayaran</label>
-                <select name="status" required className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                <select name="status" required className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
                   <option value="LUNAS">Lunas</option>
                   <option value="DP">Uang Muka (DP)</option>
                 </select>

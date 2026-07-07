@@ -56,27 +56,27 @@ export default function KegiatanForm() {
             <form ref={formRef} onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Judul Kegiatan</label>
-                <input type="text" name="title" required placeholder="Cth: Kajian Subuh Rutin" className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                <input type="text" name="title" required placeholder="Cth: Kajian Subuh Rutin" className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Tipe / Kategori</label>
-                <input type="text" name="type" required placeholder="Cth: Kajian Umum" className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                <input type="text" name="type" required placeholder="Cth: Kajian Umum" className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Deskripsi (Opsional)</label>
-                <textarea name="description" rows={3} className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"></textarea>
+                <textarea name="description" rows={3} className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"></textarea>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Waktu Mulai</label>
-                <input type="datetime-local" name="startDateTime" required defaultValue={defaultStart} className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                <input type="datetime-local" name="startDateTime" required defaultValue={defaultStart} className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Waktu Selesai</label>
-                <input type="datetime-local" name="endDateTime" required defaultValue={defaultEnd} className="w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                <input type="datetime-local" name="endDateTime" required defaultValue={defaultEnd} className="text-slate-900 bg-white w-full border border-slate-300 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
               </div>
 
               <div className="pt-2 flex gap-3">
