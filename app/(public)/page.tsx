@@ -14,7 +14,7 @@ import { prisma } from '@/lib/prisma';
 
 const getCachedFinancialSummary = unstable_cache(
   async () => {
-    const [income, expense] = await Promise.all([
+    const [income, expense] = await prisma.$transaction([
       prisma.financialReport.aggregate({
         _sum: { amount: true },
         where: { type: 'INCOME' }

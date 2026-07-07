@@ -10,7 +10,7 @@ export default async function KeuanganAdminPage() {
     take: 100
   });
 
-  const [incomeAgg, expenseAgg] = await Promise.all([
+  const [incomeAgg, expenseAgg] = await prisma.$transaction([
     prisma.financialReport.aggregate({ _sum: { amount: true }, where: { type: 'INCOME' } }),
     prisma.financialReport.aggregate({ _sum: { amount: true }, where: { type: 'EXPENSE' } }),
   ]);

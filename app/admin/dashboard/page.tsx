@@ -9,7 +9,7 @@ async function getDashboardData() {
   const sixMonthsAgo = new Date();
   sixMonthsAgo.setMonth(now.getMonth() - 6);
   
-  const [incomeAgg, expenseAgg, pendingDonationsCount, activeActivitiesCount, totalJamaah, recentTransactions, financialReports] = await Promise.all([
+  const [incomeAgg, expenseAgg, pendingDonationsCount, activeActivitiesCount, totalJamaah, recentTransactions, financialReports] = await prisma.$transaction([
     prisma.financialReport.aggregate({ _sum: { amount: true }, where: { type: 'INCOME' } }),
     prisma.financialReport.aggregate({ _sum: { amount: true }, where: { type: 'EXPENSE' } }),
     prisma.donation.count({ where: { status: 'PENDING' } }),
