@@ -11,20 +11,12 @@ const defaultPrayerTimes = [
 ];
 
 export const PrayerTimes = () => {
-  // Compute the initial next prayer index on mount (avoids setState in effect)
-  const [nextPrayerIndex, setNextPrayerIndex] = useState<number | null>(() => {
-    const now = new Date();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-    for (let i = 0; i < defaultPrayerTimes.length; i++) {
-      const [h, m] = defaultPrayerTimes[i].time.split(':').map(Number);
-      if (currentMinutes < h * 60 + m) return i;
-    }
-    return 0; // Default to Subuh if all prayers have passed
-  });
+  const [nextPrayerIndex, setNextPrayerIndex] = useState<number | null>(null);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Recalculate every minute to keep the indicator current
-    const interval = setInterval(() => {
+    setIsClient(true);
+    const calculateNextPrayer = () => {
       const now = new Date();
       const currentMinutes = now.getHours() * 60 + now.getMinutes();
       let found = false;
@@ -37,7 +29,13 @@ export const PrayerTimes = () => {
         }
       }
       if (!found) setNextPrayerIndex(0);
-    }, 60_000);
+    };
+
+    // Calculate immediately on mount
+    calculateNextPrayer();
+
+    // Recalculate every minute to keep the indicator current
+    const interval = setInterval(calculateNextPrayer, 60_000);
 
     return () => clearInterval(interval);
   }, []);
@@ -49,41 +47,41 @@ export const PrayerTimes = () => {
           const isNext = idx === nextPrayerIndex;
           
           return (
-            <motion.div 
+              <motion.div 
               key={prayer.name}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.32, 0.72, 0, 1] }}
               className={`shrink-0 w-[160px] md:w-auto snap-center md:snap-none p-1.5 ring-1 rounded-[1.5rem] relative overflow-hidden group ${
-                isNext 
+                isClient && isNext 
                   ? 'bg-emerald-900/10 ring-emerald-900/20' 
                   : 'bg-emerald-950/5 ring-emerald-950/5'
               }`}
             >
               <div className={`h-full p-6 rounded-[calc(1.5rem-0.375rem)] flex flex-col items-center justify-center gap-2 transition-colors duration-500 relative ${
-                isNext 
+                isClient && isNext 
                   ? 'bg-emerald-900 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]' 
                   : 'bg-[#FDFBF7] shadow-[inset_0_1px_1px_rgba(255,255,255,1)] group-hover:bg-white'
               }`}>
                 
                 {/* Ping Indicator for Next Prayer */}
-                {isNext && (
+                {isClient && isNext && (
                   <span className="absolute top-4 right-5 flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                   </span>
                 )}
                 
-                <span className={`text-[10px] uppercase tracking-[0.2em] font-bold ${isNext ? 'text-emerald-400' : 'text-[#787774]'}`}>
+                <span className={`text-[10px] uppercase tracking-[0.2em] font-bold ${isClient && isNext ? 'text-emerald-400' : 'text-[#787774]'}`}>
                   {prayer.name}
                 </span>
                 
-                <span className={`text-3xl font-sans font-bold tracking-tight ${isNext ? 'text-white' : 'text-emerald-950'}`}>
+                <span className={`text-3xl font-sans font-bold tracking-tight ${isClient && isNext ? 'text-white' : 'text-emerald-950'}`}>
                   {prayer.time}
                 </span>
                 
-                {isNext && (
+                {isClient && isNext && (
                   <span className="text-[9px] uppercase tracking-widest text-emerald-100/70 mt-1">Selanjutnya</span>
                 )}
                 

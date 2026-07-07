@@ -24,6 +24,12 @@ export const ActivityCard: React.FC<ActivityProps> = ({ title, description, spea
     return <BookOpenText weight="duotone" className="w-6 h-6 text-emerald-800" />;
   };
 
+  const [isClient, setIsClient] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 64, filter: 'blur(10px)' }}
@@ -63,11 +69,11 @@ export const ActivityCard: React.FC<ActivityProps> = ({ title, description, spea
         <div className="text-xs text-[#787774] mt-auto pt-6 border-t border-emerald-950/5 font-mono flex flex-col gap-3">
           <div className="flex items-center gap-4">
             <span className="w-16 uppercase text-[10px] tracking-widest text-emerald-950 font-sans font-semibold opacity-60">Mulai</span>
-            <span className="text-emerald-950 font-medium">{startDateTime.toLocaleString('id-ID')}</span>
+            <span className="text-emerald-950 font-medium">{isClient ? startDateTime.toLocaleString('id-ID') : '...'}</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="w-16 uppercase text-[10px] tracking-widest text-emerald-950 font-sans font-semibold opacity-60">Selesai</span>
-            <span className="text-emerald-950 font-medium">{endDateTime.toLocaleString('id-ID')}</span>
+            <span className="text-emerald-950 font-medium">{isClient ? endDateTime.toLocaleString('id-ID') : '...'}</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="w-16 uppercase text-[10px] tracking-widest text-emerald-950 font-sans font-semibold opacity-60">Lokasi</span>
