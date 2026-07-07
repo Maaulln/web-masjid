@@ -47,16 +47,25 @@ export const Footer = () => {
           </div>
           
           <div className="md:col-span-2 md:col-start-7 flex flex-col gap-6">
-            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/30">Halaman</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/30">Halaman Utama</span>
             <div className="flex flex-col gap-4 font-medium text-white/70">
               <Link href="/" className="hover:text-emerald-400 transition-colors w-max">Beranda</Link>
-              <Link href="/transparansi" className="hover:text-emerald-400 transition-colors w-max">Laporan Kas</Link>
-              <Link href="/donasi" className="hover:text-emerald-400 transition-colors w-max">Donasi</Link>
+              <Link href="/profil" className="hover:text-emerald-400 transition-colors w-max">Profil Masjid</Link>
+              <Link href="/transparansi" className="hover:text-emerald-400 transition-colors w-max">Transparansi Kas</Link>
+            </div>
+          </div>
+
+          <div className="md:col-span-2 flex flex-col gap-6">
+            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/30">Layanan Umat</span>
+            <div className="flex flex-col gap-4 font-medium text-white/70">
+              <Link href="/donasi" className="hover:text-emerald-400 transition-colors w-max">Infaq & Sedekah</Link>
+              <Link href="/kurban" className="hover:text-emerald-400 transition-colors w-max">Program Kurban</Link>
+              <Link href="/layanan" className="hover:text-emerald-400 transition-colors w-max">Fasilitas & Jadwal</Link>
             </div>
           </div>
           
           <div className="md:col-span-2 flex flex-col gap-6">
-            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/30">Legal</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/30">Legal & Admin</span>
             <div className="flex flex-col gap-4 font-medium text-white/70">
               <Link href="/privacy-policy" className="hover:text-emerald-400 transition-colors w-max">Kebijakan Privasi</Link>
               <Link href="/login" className="hover:text-emerald-400 transition-colors w-max">Login Pengurus</Link>
