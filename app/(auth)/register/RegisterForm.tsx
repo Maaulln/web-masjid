@@ -83,7 +83,7 @@ export function RegisterForm() {
             <Input label="Kata Sandi Baru" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Minimal 6 karakter" />
             
             <div className="flex justify-center w-full mt-2">
-              <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x0000000000000000000000'} onSuccess={(token) => setTurnstileToken(token)} />
+              <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} onSuccess={(token) => setTurnstileToken(token)} />
             </div>
 
             <button 

@@ -72,7 +72,7 @@ export const DonasiForm = () => {
         
 
         <div className="my-4 flex justify-center">
-          <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x0000000000000000000000'} onSuccess={handleSuccess} />
+          <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} onSuccess={handleSuccess} />
         </div>
         
         <Button type="submit" className="w-full py-4 text-xs font-bold tracking-widest uppercase rounded-full bg-emerald-950 hover:bg-emerald-900 text-white shadow-lg transition-colors">Salurkan Donasi</Button>

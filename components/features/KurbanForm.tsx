@@ -98,7 +98,7 @@ export function KurbanForm() {
             </p>
             
             <div className="flex justify-center w-full mb-6">
-              <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x0000000000000000000000'} onSuccess={(token) => setTurnstileToken(token)} />
+              <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} onSuccess={(token) => setTurnstileToken(token)} />
             </div>
 
             <button 
