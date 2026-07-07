@@ -1,26 +1,38 @@
 'use server';
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../../api/auth/[...nextauth]/route';
 import { revalidatePath } from 'next/cache';
-
+import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
+import { requireAdmin } from '@/lib/auth-guard';
+
+const qurbanSchema = z.object({
+  mudhohiName: z.string().min(1, 'Nama wajib diisi'),
+  phoneNumber: z.string().optional(),
+  animalType: z.enum(['SAPI', 'KAMBING']),
+  status: z.enum(['LUNAS', 'DP']),
+});
 
 export async function addQurban(formData: FormData) {
-  const session = await getServerSession(authOptions);
-  
-  if (!session || session.user?.role !== 'ADMIN') {
+  let session;
+  try {
+    session = await requireAdmin();
+  } catch (error) {
     return { success: false, error: 'Unauthorized' };
   }
 
-  const mudhohiName = formData.get('mudhohiName') as string;
-  const phoneNumber = formData.get('phoneNumber') as string;
-  const animalType = formData.get('animalType') as 'SAPI' | 'KAMBING';
-  const status = formData.get('status') as 'LUNAS' | 'DP';
+  const rawData = {
+    mudhohiName: formData.get('mudhohiName'),
+    phoneNumber: formData.get('phoneNumber') || undefined,
+    animalType: formData.get('animalType'),
+    status: formData.get('status'),
+  };
 
-  if (!mudhohiName || !animalType || !status) {
-    return { success: false, error: 'Nama, Jenis Hewan, dan Status wajib diisi' };
+  const validated = qurbanSchema.safeParse(rawData);
+  if (!validated.success) {
+    return { success: false, error: validated.error.errors[0].message };
   }
+
+  const { mudhohiName, phoneNumber, animalType, status } = validated.data;
 
   try {
     await prisma.$transaction(async (tx) => {
@@ -29,14 +41,14 @@ export async function addQurban(formData: FormData) {
           mudhohiName,
           mudhohiPhone: phoneNumber || null,
           type: animalType,
-          status: status === 'LUNAS' ? 'RECEIVED' : 'RECEIVED', // Mapped DP/Lunas to RECEIVED since schema expects QurbanStatus
+          status: status === 'LUNAS' ? 'RECEIVED' : 'RECEIVED',
         }
       });
 
       await tx.auditTrail.create({
         data: {
-          userId: session.user.id,
-          userEmail: session.user.email!,
+          userId: (session.user as { id?: string }).id || '',
+          userEmail: session.user?.email || 'admin@masjid.com',
           action: `Mendaftarkan Qurban: ${mudhohiName} (${animalType})`,
         }
       });
@@ -51,9 +63,10 @@ export async function addQurban(formData: FormData) {
 }
 
 export async function deleteQurban(id: string) {
-  const session = await getServerSession(authOptions);
-  
-  if (!session || session.user?.role !== 'ADMIN') {
+  let session;
+  try {
+    session = await requireAdmin();
+  } catch (error) {
     return { success: false, error: 'Unauthorized' };
   }
 
@@ -65,8 +78,8 @@ export async function deleteQurban(id: string) {
 
       await tx.auditTrail.create({
         data: {
-          userId: session.user.id,
-          userEmail: session.user.email!,
+          userId: (session.user as { id?: string }).id || '',
+          userEmail: session.user?.email || 'admin@masjid.com',
           action: `Menghapus pendaftar Qurban: ${record.mudhohiName}`,
         }
       });
@@ -74,7 +87,7 @@ export async function deleteQurban(id: string) {
 
     revalidatePath('/admin/qurban');
     return { success: true };
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Gagal menghapus data' };
   }
 }

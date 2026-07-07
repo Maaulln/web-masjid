@@ -1,23 +1,30 @@
 'use server';
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../../api/auth/[...nextauth]/route';
 import { revalidatePath } from 'next/cache';
-
+import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
+import { requireAdmin } from '@/lib/auth-guard';
+
+const idSchema = z.string().min(1, 'ID tidak valid');
 
 export async function verifyDonation(donationId: string) {
-  const session = await getServerSession(authOptions);
-  
-  if (!session || (session.user as any)?.role !== 'ADMIN') {
+  let session;
+  try {
+    session = await requireAdmin();
+  } catch (error) {
     return { success: false, error: 'Unauthorized' };
+  }
+
+  const validated = idSchema.safeParse(donationId);
+  if (!validated.success) {
+    return { success: false, error: validated.error.errors[0].message };
   }
 
   try {
     await prisma.$transaction(async (tx) => {
       // 1. Get the donation
       const donation = await tx.donation.findUnique({
-        where: { id: donationId }
+        where: { id: validated.data }
       });
 
       if (!donation) {
@@ -30,7 +37,7 @@ export async function verifyDonation(donationId: string) {
 
       // 2. Update donation status
       await tx.donation.update({
-        where: { id: donationId },
+        where: { id: validated.data },
         data: { status: 'SUCCESS' }
       });
 
@@ -47,9 +54,9 @@ export async function verifyDonation(donationId: string) {
       // 4. Create audit log
       await tx.auditTrail.create({
         data: {
-          userId: session.user.id,
-          userEmail: session.user.email!,
-          action: `Verifikasi donasi ${donationId} senilai ${donation.amount}`,
+          userId: (session.user as { id?: string }).id || '',
+          userEmail: session.user?.email || 'admin@masjid.com',
+          action: `Verifikasi donasi ${validated.data} senilai ${donation.amount}`,
         }
       });
     });
@@ -64,22 +71,28 @@ export async function verifyDonation(donationId: string) {
 }
 
 export async function rejectDonation(donationId: string) {
-  const session = await getServerSession(authOptions);
-  
-  if (!session || session.user?.role !== 'ADMIN') {
+  let session;
+  try {
+    session = await requireAdmin();
+  } catch (error) {
     return { success: false, error: 'Unauthorized' };
+  }
+
+  const validated = idSchema.safeParse(donationId);
+  if (!validated.success) {
+    return { success: false, error: validated.error.errors[0].message };
   }
 
   try {
     await prisma.donation.update({
-      where: { id: donationId },
+      where: { id: validated.data },
       data: { status: 'FAILED' }
     });
 
     revalidatePath('/admin/donasi');
     revalidatePath('/admin/dashboard');
     return { success: true };
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Terjadi kesalahan saat menolak donasi' };
   }
 }

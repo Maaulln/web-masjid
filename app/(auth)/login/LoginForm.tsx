@@ -5,10 +5,12 @@ import { signIn, getSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/Input';
 import { motion } from 'framer-motion';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
@@ -17,10 +19,15 @@ export function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!turnstileToken) {
+      setError('Mohon selesaikan CAPTCHA terlebih dahulu.');
+      return;
+    }
+    
     setIsSubmitting(true);
-    const res = await signIn('credentials', { email, password, redirect: false });
+    const res = await signIn('credentials', { email, password, turnstileToken, redirect: false });
     if (res?.error) {
-      setError('Email atau Password salah.');
+      setError(res.error === 'Verifikasi CAPTCHA gagal' ? res.error : 'Email atau Password salah.');
       setIsSubmitting(false);
     } else {
       const session = await getSession();
@@ -77,6 +84,10 @@ export function LoginForm() {
               <Link href="/forgot-password" className="text-[11px] font-semibold text-[#787774] hover:text-emerald-900 transition-colors uppercase tracking-wider">
                 Lupa Kata Sandi?
               </Link>
+            </div>
+            
+            <div className="flex justify-center w-full">
+              <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x0000000000000000000000'} onSuccess={(token) => setTurnstileToken(token)} />
             </div>
 
             <button 

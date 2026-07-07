@@ -1,27 +1,41 @@
 'use server';
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../../api/auth/[...nextauth]/route';
 import { revalidatePath, revalidateTag } from 'next/cache';
-
+import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
+import { requireAdmin } from '@/lib/auth-guard';
+
+const recordSchema = z.object({
+  type: z.enum(['INCOME', 'EXPENSE']),
+  category: z.string().min(1, 'Kategori tidak boleh kosong'),
+  description: z.string().min(1, 'Deskripsi tidak boleh kosong'),
+  amount: z.number().positive('Nominal harus lebih dari 0'),
+  date: z.string().min(1, 'Tanggal tidak boleh kosong')
+});
 
 export async function addFinancialRecord(formData: FormData) {
-  const session = await getServerSession(authOptions);
-  
-  if (!session || session.user?.role !== 'ADMIN') {
+  let session;
+  try {
+    session = await requireAdmin();
+  } catch (error) {
     return { success: false, error: 'Unauthorized' };
   }
 
-  const type = formData.get('type') as 'INCOME' | 'EXPENSE';
-  const category = formData.get('category') as string;
-  const description = formData.get('description') as string;
-  const amount = parseFloat(formData.get('amount') as string);
-  const dateStr = formData.get('date') as string;
+  const rawData = {
+    type: formData.get('type'),
+    category: formData.get('category'),
+    description: formData.get('description'),
+    amount: parseFloat(formData.get('amount') as string),
+    date: formData.get('date'),
+  };
 
-  if (!type || !category || !description || isNaN(amount) || !dateStr) {
-    return { success: false, error: 'Semua field wajib diisi' };
+  const validated = recordSchema.safeParse(rawData);
+  
+  if (!validated.success) {
+    return { success: false, error: validated.error.errors[0].message };
   }
+
+  const { type, category, description, amount, date } = validated.data;
 
   try {
     await prisma.$transaction(async (tx) => {
@@ -31,14 +45,14 @@ export async function addFinancialRecord(formData: FormData) {
           category,
           description,
           amount,
-          date: new Date(dateStr)
+          date: new Date(date)
         }
       });
 
       await tx.auditTrail.create({
         data: {
-          userId: session.user.id,
-          userEmail: session.user.email!,
+          userId: (session.user as { id?: string }).id || '',
+          userEmail: session.user?.email || 'admin@masjid.com',
           action: `Menambahkan rekam keuangan ${type}: ${description} senilai ${amount}`,
         }
       });
@@ -57,9 +71,10 @@ export async function addFinancialRecord(formData: FormData) {
 }
 
 export async function deleteFinancialRecord(id: string) {
-  const session = await getServerSession(authOptions);
-  
-  if (!session || session.user?.role !== 'ADMIN') {
+  let session;
+  try {
+    session = await requireAdmin();
+  } catch (error) {
     return { success: false, error: 'Unauthorized' };
   }
 
@@ -71,8 +86,8 @@ export async function deleteFinancialRecord(id: string) {
 
       await tx.auditTrail.create({
         data: {
-          userId: session.user.id,
-          userEmail: session.user.email!,
+          userId: (session.user as { id?: string }).id || '',
+          userEmail: session.user?.email || 'admin@masjid.com',
           action: `Menghapus rekam keuangan ${record.type}: ${record.description} senilai ${record.amount}`,
         }
       });
@@ -84,7 +99,7 @@ export async function deleteFinancialRecord(id: string) {
     revalidatePath('/transparansi');
     revalidateTag('financial-summary', 'max');
     return { success: true };
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Gagal menghapus data' };
   }
 }

@@ -1,12 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 export async function POST(req: NextRequest) {
   try {
-    const { mudhohiName, mudhohiEmail, mudhohiPhone, type, weight, price } = await req.json();
+    const { mudhohiName, mudhohiEmail, mudhohiPhone, type, weight, price, turnstileToken } = await req.json();
 
     if (!mudhohiName || !type) {
       return NextResponse.json({ error: 'Nama Mudhohi dan Tipe Hewan harus diisi.' }, { status: 400 });
+    }
+    
+    const isTokenValid = await verifyTurnstileToken(turnstileToken);
+    if (!isTokenValid) {
+      return NextResponse.json({ error: 'Verifikasi CAPTCHA gagal' }, { status: 400 });
     }
 
     const qurban = await prisma.qurban.create({

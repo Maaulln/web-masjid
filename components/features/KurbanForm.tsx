@@ -3,17 +3,24 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 export function KurbanForm() {
   const [mudhohiName, setMudhohiName] = useState('');
   const [mudhohiPhone, setMudhohiPhone] = useState('');
   const [type, setType] = useState('SAPI');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!turnstileToken) {
+      setError('Mohon selesaikan CAPTCHA terlebih dahulu.');
+      return;
+    }
+    
     setLoading(true);
     setError('');
     setMessage('');
@@ -22,7 +29,7 @@ export function KurbanForm() {
       const res = await fetch('/api/qurban/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mudhohiName, mudhohiPhone, type }),
+        body: JSON.stringify({ mudhohiName, mudhohiPhone, type, turnstileToken }),
       });
 
       const data = await res.json();
@@ -89,6 +96,11 @@ export function KurbanForm() {
             <p className="text-xs text-[#787774] font-medium leading-relaxed mb-6">
               *Dengan mendaftar, panitia akan memverifikasi kesediaan Anda dan memberikan rincian harga hewan kurban tahun ini.
             </p>
+            
+            <div className="flex justify-center w-full mb-6">
+              <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x0000000000000000000000'} onSuccess={(token) => setTurnstileToken(token)} />
+            </div>
+
             <button 
               type="submit" 
               disabled={loading}

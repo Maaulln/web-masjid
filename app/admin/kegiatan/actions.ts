@@ -1,51 +1,64 @@
 'use server';
 
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../../api/auth/[...nextauth]/route';
 import { revalidatePath } from 'next/cache';
-
+import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
+import { requireAdmin } from '@/lib/auth-guard';
+
+const activitySchema = z.object({
+  title: z.string().min(1, 'Judul wajib diisi'),
+  description: z.string().optional(),
+  type: z.string().min(1, 'Tipe kegiatan wajib diisi'),
+  startDateTime: z.string().min(1, 'Waktu mulai wajib diisi'),
+  endDateTime: z.string().min(1, 'Waktu selesai wajib diisi')
+}).refine(data => {
+  const start = new Date(data.startDateTime);
+  const end = new Date(data.endDateTime);
+  return start < end;
+}, {
+  message: 'Waktu selesai harus setelah waktu mulai',
+  path: ['endDateTime']
+});
 
 export async function addActivity(formData: FormData) {
-  const session = await getServerSession(authOptions);
-  
-  if (!session || session.user?.role !== 'ADMIN') {
+  let session;
+  try {
+    session = await requireAdmin();
+  } catch (error) {
     return { success: false, error: 'Unauthorized' };
   }
 
-  const title = formData.get('title') as string;
-  const description = formData.get('description') as string;
-  const type = formData.get('type') as string;
-  const startStr = formData.get('startDateTime') as string;
-  const endStr = formData.get('endDateTime') as string;
+  const rawData = {
+    title: formData.get('title'),
+    description: formData.get('description'),
+    type: formData.get('type'),
+    startDateTime: formData.get('startDateTime'),
+    endDateTime: formData.get('endDateTime'),
+  };
 
-  if (!title || !type || !startStr || !endStr) {
-    return { success: false, error: 'Field utama wajib diisi' };
+  const validated = activitySchema.safeParse(rawData);
+  if (!validated.success) {
+    return { success: false, error: validated.error.errors[0].message };
   }
 
-  const startDateTime = new Date(startStr);
-  const endDateTime = new Date(endStr);
-
-  if (startDateTime >= endDateTime) {
-    return { success: false, error: 'Waktu selesai harus setelah waktu mulai' };
-  }
+  const { title, description, type, startDateTime, endDateTime } = validated.data;
 
   try {
     await prisma.$transaction(async (tx) => {
       await tx.activity.create({
         data: {
           title,
-          description,
+          description: description || null,
           type,
-          startDateTime,
-          endDateTime
+          startDateTime: new Date(startDateTime),
+          endDateTime: new Date(endDateTime)
         }
       });
 
       await tx.auditTrail.create({
         data: {
-          userId: session.user.id,
-          userEmail: session.user.email!,
+          userId: (session.user as { id?: string }).id || '',
+          userEmail: session.user?.email || 'admin@masjid.com',
           action: `Menambahkan kegiatan baru: ${title}`,
         }
       });
@@ -62,9 +75,10 @@ export async function addActivity(formData: FormData) {
 }
 
 export async function deleteActivity(id: string) {
-  const session = await getServerSession(authOptions);
-  
-  if (!session || session.user?.role !== 'ADMIN') {
+  let session;
+  try {
+    session = await requireAdmin();
+  } catch (error) {
     return { success: false, error: 'Unauthorized' };
   }
 
@@ -76,8 +90,8 @@ export async function deleteActivity(id: string) {
 
       await tx.auditTrail.create({
         data: {
-          userId: session.user.id,
-          userEmail: session.user.email!,
+          userId: (session.user as { id?: string }).id || '',
+          userEmail: session.user?.email || 'admin@masjid.com',
           action: `Menghapus kegiatan: ${record.title}`,
         }
       });
@@ -87,7 +101,7 @@ export async function deleteActivity(id: string) {
     revalidatePath('/admin/dashboard');
     revalidatePath('/');
     return { success: true };
-  } catch (error) {
+  } catch {
     return { success: false, error: 'Gagal menghapus data' };
   }
 }

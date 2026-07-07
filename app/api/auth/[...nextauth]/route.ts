@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import * as bcrypt from 'bcrypt';
 
 import { prisma } from '@/lib/prisma';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -10,10 +11,15 @@ export const authOptions: NextAuthOptions = {
       name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' }
+        password: { label: 'Password', type: 'password' },
+        turnstileToken: { label: 'Turnstile', type: 'text' }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
+        
+        const isTokenValid = await verifyTurnstileToken(credentials.turnstileToken);
+        if (!isTokenValid) throw new Error('Verifikasi CAPTCHA gagal');
+
         const user = await prisma.user.findUnique({ where: { email: credentials.email } });
         if (!user) return null;
         const isValid = await bcrypt.compare(credentials.password, user.passwordHash);

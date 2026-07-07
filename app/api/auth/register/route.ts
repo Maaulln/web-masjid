@@ -1,14 +1,23 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcrypt';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 export async function POST(request: Request) {
   try {
-    const { name, email, password } = await request.json();
+    const { name, email, password, turnstileToken } = await request.json();
 
     if (!name || !email || !password) {
       return NextResponse.json(
         { error: 'Mohon lengkapi semua data' },
+        { status: 400 }
+      );
+    }
+    
+    const isTokenValid = await verifyTurnstileToken(turnstileToken);
+    if (!isTokenValid) {
+      return NextResponse.json(
+        { error: 'Verifikasi CAPTCHA gagal' },
         { status: 400 }
       );
     }

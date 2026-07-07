@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/Input';
 import { motion } from 'framer-motion';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 export function RegisterForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -16,13 +18,19 @@ export function RegisterForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    
+    if (!turnstileToken) {
+      setError('Mohon selesaikan CAPTCHA terlebih dahulu.');
+      return;
+    }
+
     setLoading(true);
 
     try {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ name, email, password, turnstileToken })
       });
 
       const data = await res.json();
@@ -74,6 +82,10 @@ export function RegisterForm() {
             <Input label="Alamat Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Misal: jamaah@email.com" />
             <Input label="Kata Sandi Baru" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Minimal 6 karakter" />
             
+            <div className="flex justify-center w-full mt-2">
+              <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x0000000000000000000000'} onSuccess={(token) => setTurnstileToken(token)} />
+            </div>
+
             <button 
               type="submit" 
               disabled={loading}
